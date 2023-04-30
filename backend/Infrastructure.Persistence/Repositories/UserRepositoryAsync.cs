@@ -21,10 +21,11 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
 
     public async Task<IEnumerable<User>> GetPagedUserResponseAsync(GetUsersQuery requestParameter)
     {
-        List<User> users = new List<User>();
-        users.Add(new User { Id = 1, Email = "email1@email.com", Login = "login1", Name = "name1", Created_at = new DateTime(), Password = "password1", Surname = "surname1" });
-        users.Add(new User { Id = 2, Email = "email2@email.com", Login = "login2", Name = "name2", Created_at = new DateTime(), Password = "password2", Surname = "surname2" });
-        await Task.Delay(1000);
+        List<User> users = await _users.ToListAsync();
+     
+        // users.Add(new User { Id = 1, Email = "email1@email.com", Login = "login1", Name = "name1", Created_at = new DateTime(), Password = "password1", Surname = "surname1" });
+        // users.Add(new User { Id = 2, Email = "email2@email.com", Login = "login2", Name = "name2", Created_at = new DateTime(), Password = "password2", Surname = "surname2" });
+        // await Task.Delay(1000);
         // response wrapper
         return users.AsEnumerable();
     }
