@@ -1,6 +1,6 @@
 using Application.Features.Users.Queries.GetUsers;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Data.Entities;
 
 namespace WebApi.Controllers.v1;
 
@@ -17,7 +17,7 @@ public class UserController : BaseApiController
     [HttpGet]
     public async Task<object> GetUsers([FromQuery] GetUsersQuery filter)
     {
-        return Ok(await Mediator.Send(filter));
+        return Ok(await Mediator!.Send(filter));
     }
 
     /// <summary>

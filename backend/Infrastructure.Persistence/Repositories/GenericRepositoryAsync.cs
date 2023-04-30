@@ -20,7 +20,7 @@ namespace Infrastructure.Persistence.Repository
         //    return await _dbContext.Set<T>().FindAsync(id);
         //}
 
-        public virtual async Task<T> GetByIdAsync(long id)
+        public virtual async Task<T?> GetByIdAsync(long id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

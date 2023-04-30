@@ -92,8 +92,11 @@ public class DataShapeHelper<T> : IDataShapeHelper<T>
 
         foreach (var entity in entities)
         {
-            var shapedObject = FetchDataForEntityGeneric(entity, requiredProperties);
-            shapedData.Add(shapedObject);
+            if (entity is not null)
+            {
+                var shapedObject = FetchDataForEntityGeneric(entity, requiredProperties);
+                shapedData.Add(shapedObject);
+            }
         }
 
         return shapedData;
@@ -101,12 +104,13 @@ public class DataShapeHelper<T> : IDataShapeHelper<T>
 
     private Entity FetchDataForEntity(T entity, IEnumerable<PropertyInfo> requiredProperties)
     {
-        var shapedObject = new Entity();
+        Entity? shapedObject = new();
 
         foreach (var property in requiredProperties)
         {
-            var objectPropertyValue = property.GetValue(entity);
-            shapedObject.TryAdd(property.Name, objectPropertyValue);
+            object? objectPropertyValue = property.GetValue(entity);
+            shapedObject!.TryAdd(property.Name, objectPropertyValue);
+
         }
 
         return shapedObject;
@@ -118,8 +122,8 @@ public class DataShapeHelper<T> : IDataShapeHelper<T>
         foreach (var property in requiredProperties)
         {
             var objectPropertyValue = property.GetValue(entity);
-            var propInfo = t.GetProperty(property.Name);
-            propInfo.SetValue(t, objectPropertyValue, null);
+            PropertyInfo? propInfo = t.GetProperty(property.Name);
+            propInfo?.SetValue(t, objectPropertyValue, null);
         }
 
         return (T)entity;
@@ -180,7 +184,7 @@ public class DataShapeHelper<T> : IDataShapeHelper<T>
 
     private void SetPropertyValue(T entity, string propName, object value)
     {
-        entity.GetType().GetProperty(propName).SetValue(entity, value, null);
+        entity?.GetType().GetProperty(propName)?.SetValue(entity, value, null);
     }
 }
 

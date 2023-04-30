@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -20,7 +21,7 @@ public class ApplicationDbContext : DbContext
 
 
     #region TABLES
-
+    public DbSet<User> Users => Set<User>();
     #endregion
 
     #region VIEWS
@@ -79,13 +80,16 @@ public class ApplicationDbContext : DbContext
     }
     */
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySql(_defaultConnection, ServerVersion.AutoDetect(_defaultConnection));
+
+        // optionsBuilder.UseMySql(_defaultConnection, ServerVersion.AutoDetect(_defaultConnection));
         optionsBuilder.EnableSensitiveDataLogging(true);
         optionsBuilder.UseLoggerFactory(_loggerFactory);
         // optionsBuilder.LogTo(Console.WriteLine);
     }
+
 
 
 }

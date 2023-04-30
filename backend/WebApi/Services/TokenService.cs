@@ -6,8 +6,16 @@ using System.Text;
 
 namespace WebApi.Services;
 
+/// <summary>
+/// 
+/// </summary>
 public static class TokenService
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     public static string GenerateToken(dynamic user)
     {
         JwtSecurityTokenHandler tokenHandler = new();

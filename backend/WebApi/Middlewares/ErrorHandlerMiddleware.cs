@@ -4,16 +4,26 @@ using System.Net;
 using System.Text.Json;
 
 namespace WebApi.Middlewares;
-
+/// <summary>
+/// 
+/// </summary>
 public class ErrorHandlerMiddleware
 {
     private readonly RequestDelegate _next;
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="next"></param>
     public ErrorHandlerMiddleware(RequestDelegate next)
     {
         _next = next;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     public async Task Invoke(HttpContext context)
     {
         try
