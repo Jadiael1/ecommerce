@@ -1,4 +1,5 @@
 ﻿using System.Linq.Dynamic.Core;
+using Application.Exceptions;
 using Application.Features.Users.Queries.GetUsers;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
@@ -21,6 +22,11 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
     {
         _dataShaper = dataShaper;
         _users = dbContext.Set<User>();
+    }
+
+    public async Task<User?> GetUserByIdAsync(int Id)
+    {
+        return await _users.Where(u => u.Id == Id).FirstOrDefaultAsync();
     }
 
     public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedUserResponseAsync(
@@ -53,6 +59,10 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
 
         result = result.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         var resultData = await result.ToListAsync();
+        if (resultData?.Count == 0)
+        {
+            throw new KeyNotFoundException("Nenhum user foi localizado.");
+        }
         var shapeData = await _dataShaper.ShapeDataAsync(resultData, fields);
         return (shapeData, recordsCount);
     }

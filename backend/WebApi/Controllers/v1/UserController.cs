@@ -1,4 +1,8 @@
+using Application.DTOs.Error;
+using Application.Exceptions;
+using Application.Features.Users.Queries.GetUserById;
 using Application.Features.Users.Queries.GetUsers;
+using Application.Wrappers;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,33 +15,40 @@ namespace WebApi.Controllers.v1;
 public class UserController : BaseApiController
 {
     /// <summary>
-    /// Get Users
+    /// GET: api/controller, CRUD > Get by query parameters
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<object> GetUsers([FromQuery] GetUsersQuery filter)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<User>>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> Get([FromQuery] GetUsersQuery filter)
     {
         return Ok(await Mediator!.Send(filter));
     }
 
     /// <summary>
-    /// Get User By ID
+    /// GET api/controller, CRUD > Get by Id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<object> GetUserByID(int id)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> Get(int id)
     {
-        await Task.Delay(1000);
-        return new { };
+        return Ok(await Mediator!.Send(new GetUserByIdQuery { Id = id }));
     }
 
     /// <summary>
-    /// Register a new user
+    /// POST api/controller, CRUD > Create
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public async Task<object> PostAsync(User user)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<object> Post(User user)
     {
         await Task.Delay(1000);
         return new { };
@@ -64,5 +75,4 @@ public class UserController : BaseApiController
         await Task.Delay(1000);
         return new { };
     }
-
 }

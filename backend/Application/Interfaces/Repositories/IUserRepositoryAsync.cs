@@ -8,4 +8,6 @@ public interface IUserRepositoryAsync : IGenericRepositoryAsync<User>
 {
     Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedUserResponseAsync(
         GetUsersQuery requestParameter);
+
+    Task<User?> GetUserByIdAsync(int Id);
 }
