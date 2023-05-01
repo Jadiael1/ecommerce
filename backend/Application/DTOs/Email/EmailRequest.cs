@@ -1,10 +1,10 @@
 ﻿namespace Application.DTOs.Email;
 
-public class EmailRequest
+public abstract class EmailRequest
 {
-    public string To { get; set; } = String.Empty;
-    public string Subject { get; set; } = String.Empty;
-    public string Body { get; set; } = String.Empty;
-    public string From { get; set; } = String.Empty;
+    public string To { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
+    public string Body { get; set; } = string.Empty;
+    public string From { get; set; } = string.Empty;
 }
 

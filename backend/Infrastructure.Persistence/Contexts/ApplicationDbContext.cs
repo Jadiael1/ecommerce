@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Persistence.Contexts;
 
-public class ApplicationDbContext : DbContext
+public sealed class ApplicationDbContext : DbContext
 {
     private readonly IDateTimeService _dateTime;
     private readonly ILoggerFactory _loggerFactory;
@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
 
     #region TABLES
     public DbSet<User> Users => Set<User>();
+    public DbSet<Product> Products => Set<Product>();
     #endregion
 
     #region VIEWS

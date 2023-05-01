@@ -8,14 +8,14 @@ using System.Collections.Generic;
 
 namespace Application.Features.Users.Queries.GetUsers;
 
-public class GetUsersQuery : QueryParameter, IRequest<PagedResponse<IEnumerable<User>>>
+public class GetUsersQuery : QueryParameter, IRequest<PagedResponse<IEnumerable<Entity>>>
 {
-    public long Id { get; set; }
-    public string Search { get; set; } = String.Empty;
-    public string type { get; set; } = String.Empty;
+    public int Id { get; set; } = new int();
+    public string Search { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
 }
 
-public class GetAllAgrupamentoColunasQueryHandler : IRequestHandler<GetUsersQuery, PagedResponse<IEnumerable<User>>>
+public class GetAllAgrupamentoColunasQueryHandler : IRequestHandler<GetUsersQuery, PagedResponse<IEnumerable<Entity>>>
 {
     private readonly IUserRepositoryAsync _userRepository;
 
@@ -24,10 +24,12 @@ public class GetAllAgrupamentoColunasQueryHandler : IRequestHandler<GetUsersQuer
         _userRepository = userRepositoryAsync;
     }
 
-    public async Task<PagedResponse<IEnumerable<User>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<User> users = await _userRepository.GetPagedUserResponseAsync(request);
-        return new PagedResponse<IEnumerable<User>>(users, 5, 1, new RecordsCount());
+        var entityUsers = await _userRepository.GetPagedUserResponseAsync(request);
+        var data = entityUsers.data;
+        RecordsCount recordCount = entityUsers.recordsCount;
+        return new PagedResponse<IEnumerable<Entity>>(data, request.PageNumber, request.PageSize, recordCount);
 
         // var entityAgrupamentoColunas = await _agrupamentoColunaRepository.GetAgrupamentoColunasAsync(request.IdRepositorio, request.IdRepAgrupamento);
         /*
