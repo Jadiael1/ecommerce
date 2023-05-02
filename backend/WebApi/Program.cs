@@ -29,7 +29,7 @@ builder.Services.AddCorsExtension();
 builder.Services.AddHealthChecks();
 // API version
 builder.Services.AddApiVersioningExtension();
-// API explorer
+// API explorer a
 builder.Services.AddMvcCore().AddApiExplorer();
 // API explorer version
 builder.Services.AddVersionedApiExplorerExtension();
