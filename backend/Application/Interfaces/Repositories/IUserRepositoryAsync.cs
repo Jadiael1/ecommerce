@@ -10,4 +10,8 @@ public interface IUserRepositoryAsync : IGenericRepositoryAsync<User>
         GetUsersQuery requestParameter);
 
     Task<User?> GetUserByIdAsync(int Id);
+
+    Task<User> UpdateUserByIdAsync(User user);
+
+    Task<User> DeleteUserByIdAsync(User user);
 }

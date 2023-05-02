@@ -11,7 +11,9 @@ public sealed class ApplicationDbContext : DbContext
     private readonly IDateTimeService _dateTime;
     private readonly ILoggerFactory _loggerFactory;
     private readonly string _defaultConnection;
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService dateTime, ILoggerFactory loggerFactory, IConfiguration config) : base(options)
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService dateTime,
+        ILoggerFactory loggerFactory, IConfiguration config) : base(options)
     {
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         _dateTime = dateTime;
@@ -21,8 +23,10 @@ public sealed class ApplicationDbContext : DbContext
 
 
     #region TABLES
+
     public DbSet<User> Users => Set<User>();
     public DbSet<Product> Products => Set<Product>();
+
     #endregion
 
     #region VIEWS
@@ -50,47 +54,23 @@ public sealed class ApplicationDbContext : DbContext
     }
     */
 
-    /*
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<RegraComputacao>(entity =>
-        {
-            entity.Property(e => e.EXECUTAR)
-                .HasConversion<char>(p => (char)p, p => (ETipoExecutar)p)
-                .HasColumnName("EXECUTAR");
-
-            entity.Property(e => e.TIPO_EXECUCAO)
-                .HasConversion<char>(p => (char)p, p => (ETipoExecucao)p)
-                .HasColumnName("TIPO_EXECUCAO");
-
-            entity.Property(e => e.TIPO_PARAMETRO_DATA)
-                .HasConversion<char>(p => (char)p, p => (ETipoParamData)p)
-                .HasColumnName("TIPO_PARAMETRO_DATA");
-
-            entity.Property(e => e.TIPO_REGRA)
-                .HasConversion<char>(p => (char)p, p => (ETipoRegra)p)
-                .HasColumnName("TIPO_REGRA");
-
-            entity.Property(e => e.TIPO_PERIODICIDADE)
-              .HasConversion<char>(p => (char)p, p => (ETipoPeriodicidade)p)
-              .HasColumnName("TIPO_PERIODICIDADE");
-
-        });
+        builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        builder.Entity<User>().Property(u => u.CreatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
+        builder.Entity<User>().Property(u => u.UpdatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
+        builder.Entity<User>().Property(u => u.IsActive).HasDefaultValue(false);
+        builder.Entity<User>().Property(u => u.IsAdmin).HasDefaultValue(false);
         base.OnModelCreating(builder);
-
     }
-    */
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
         // optionsBuilder.UseMySql(_defaultConnection, ServerVersion.AutoDetect(_defaultConnection));
-        optionsBuilder.EnableSensitiveDataLogging(true);
+        optionsBuilder.EnableSensitiveDataLogging(false);
         optionsBuilder.UseLoggerFactory(_loggerFactory);
         // optionsBuilder.LogTo(Console.WriteLine);
     }
-
-
-
 }

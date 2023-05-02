@@ -1,5 +1,8 @@
 using Application.DTOs.Error;
 using Application.Exceptions;
+using Application.Features.Users.Commands.CreateUser;
+using Application.Features.Users.Commands.DeleteUser;
+using Application.Features.Users.Commands.UpdateUser;
 using Application.Features.Users.Queries.GetUserById;
 using Application.Features.Users.Queries.GetUsers;
 using Application.Wrappers;
@@ -20,7 +23,8 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<User>>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
     public async Task<IActionResult> Get([FromQuery] GetUsersQuery filter)
     {
@@ -28,13 +32,14 @@ public class UserController : BaseApiController
     }
 
     /// <summary>
-    /// GET api/controller, CRUD > Get by Id
+    /// POST api/controller, CRUD > Create
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
     public async Task<IActionResult> Get(int id)
     {
@@ -46,33 +51,43 @@ public class UserController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<object> Post(User user)
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> Post(CreateUserCommand command)
     {
-        await Task.Delay(1000);
-        return new { };
+        return CreatedAtAction(nameof(Post), await Mediator!.Send(command));
     }
 
     /// <summary>
-    /// Get User By ID
+    /// PUT api/controller, CRUD > Update
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="user"></param>
+    /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<object> PutAsync(int id, User user)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> PutAsync(int id, UpdateUserCommand command)
     {
-        await Task.Delay(1000);
-        return new { };
+        command.Id = id;
+        return Ok(await Mediator!.Send(command));
     }
 
-    // DELETE: api/TodoItems/5
+    /// <summary>
+    /// DELETE api/controller, CRUD > Delete
+    /// </summary>
     /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
-    public async Task<object> DeleteUser(int id)
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> DeleteUser(int id)
     {
-        await Task.Delay(1000);
-        return new { };
+        return Ok(await Mediator!.Send(new DeleteUserCommand { Id = id }));
     }
 }

@@ -69,20 +69,26 @@ namespace WebApi.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("UTC_TIMESTAMP()");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("varchar(255)")
                         .HasColumnName("email");
 
                     b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_active");
 
                     b.Property<bool>("IsAdmin")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
                         .HasColumnName("is_admin");
 
                     b.Property<string>("Login")
@@ -111,10 +117,15 @@ namespace WebApi.Migrations
                         .HasColumnName("surname");
 
                     b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("UTC_TIMESTAMP()");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
