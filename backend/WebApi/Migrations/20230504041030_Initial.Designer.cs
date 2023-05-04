@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230501180739_Initial")]
+    [Migration("20230504041030_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -34,10 +34,9 @@ namespace WebApi.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Color")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("color");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -59,7 +58,21 @@ namespace WebApi.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("price");
 
+                    b.Property<string>("TechnicalInformation")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("technical_information");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -131,6 +144,22 @@ namespace WebApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Products")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

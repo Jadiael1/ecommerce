@@ -7,7 +7,6 @@ namespace Domain.Entities;
 public class User
 {
     [Column("id")]
-    [Key]
     public int Id { get; set; }
     [Column("name")]
     public string Name { get; set; } = string.Empty;
@@ -25,8 +24,10 @@ public class User
     public bool IsAdmin { get; set; }
     [Column("is_active")]
     public bool IsActive { get; set; }
+    public ICollection<Product> Products { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    
 }

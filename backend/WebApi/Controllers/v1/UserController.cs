@@ -18,7 +18,7 @@ namespace WebApi.Controllers.v1;
 public class UserController : BaseApiController
 {
     /// <summary>
-    /// GET: api/controller, CRUD > Get by query parameters
+    /// GET api/controller, CRUD > Get by query parameters
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -32,7 +32,7 @@ public class UserController : BaseApiController
     }
 
     /// <summary>
-    /// POST api/controller, CRUD > Create
+    /// Get api/controller, CRUD > Get by id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

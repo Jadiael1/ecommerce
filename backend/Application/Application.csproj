@@ -32,4 +32,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Products\Commands\" />
+  </ItemGroup>
+
 </Project>

@@ -18,6 +18,7 @@ public static class ServiceExtensions
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddScoped<IDataShapeHelper<User>, DataShapeHelper<User>>();
+        services.AddScoped<IDataShapeHelper<Product>, DataShapeHelper<Product>>();
         services.AddScoped<IModelHelper, ModelHelper>();
     }
 }

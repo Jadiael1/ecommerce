@@ -62,6 +62,19 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<User>().Property(u => u.UpdatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
         builder.Entity<User>().Property(u => u.IsActive).HasDefaultValue(false);
         builder.Entity<User>().Property(u => u.IsAdmin).HasDefaultValue(false);
+        
+        /*
+        builder.Entity<User>()
+            .HasMany(c => c.Products)
+            .WithOne(e => e.User)
+            .HasForeignKey(p => p.UserId);
+        */
+        
+       
+        
+        
+    
+        
         base.OnModelCreating(builder);
     }
 
