@@ -5,6 +5,7 @@ using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
 using System.Collections.Generic;
+using Application.DTOs.User;
 
 namespace Application.Features.Users.Queries.GetUsers;
 
@@ -24,12 +25,10 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedResponse
         _userRepository = userRepositoryAsync;
     }
 
-    public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetUsersQuery request,
+        CancellationToken cancellationToken)
     {
-        var entityUsers = await _userRepository.GetPagedUserResponseAsync(request);
-        var data = entityUsers.data;
-        RecordsCount recordCount = entityUsers.recordsCount;
+        var (data, recordCount) = await _userRepository.GetPagedUserResponseAsync(request);
         return new PagedResponse<IEnumerable<Entity>>(data, request.PageNumber, request.PageSize, recordCount);
     }
 }
-

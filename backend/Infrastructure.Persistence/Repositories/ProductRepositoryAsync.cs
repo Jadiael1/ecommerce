@@ -49,6 +49,8 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
             result = result.OrderBy<Product>(orderBy);
         }
 
+        result = result.Include(p => p.User);
+        
         if (!string.IsNullOrWhiteSpace(fields))
         {
             result = result.Select<Product>("new(" + fields + ")");
@@ -87,6 +89,16 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         if (!string.IsNullOrEmpty(requestParameter.Search))
             predicate = predicate.And(p =>
                 p.Name.Contains(requestParameter.Search.ToUpper().Trim()));
+
+        if (requestParameter is { Id: 0, Search: "", OrderBy: "", Fields: "" })
+        {
+            predicate.And(x => true);
+        }
+
+        if (requestParameter is not { Fields: "" })
+        {
+            predicate.And(x => true);
+        }
 
         products = products.Where(predicate);
     }

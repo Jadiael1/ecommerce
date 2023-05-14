@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Application;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
@@ -6,6 +7,9 @@ using WebApi.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Ignoring circular references
+// builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddControllers();
 
@@ -21,7 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationLayer();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
-
+// auth
 builder.Services.AddSwaggerExtension();
 builder.Services.AddControllersExtension();
 // CORS
@@ -52,6 +56,7 @@ app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseErrorHandlingMiddleware();

@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using Domain.Entities;
 
+namespace Application.DTOs.User;
 
-namespace Domain.Entities;
-
-public class User
+public class ResponseUserDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -18,9 +15,7 @@ public class User
     public string Photo { get; set; } = string.Empty;
     public bool IsAdmin { get; set; }
     public bool IsActive { get; set; }
-    [JsonIgnore]
     public virtual List<Product> Products { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    
 }

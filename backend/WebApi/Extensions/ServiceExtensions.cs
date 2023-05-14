@@ -2,8 +2,12 @@
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Domain.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi.Extensions;
 /// <summary>
@@ -19,8 +23,7 @@ public static class ServiceExtensions
             var basePath = PlatformServices.Default.Application.ApplicationBasePath;
             // var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var tt = Path.Combine(basePath, xmlFilename);
-            return tt;
+            return Path.Combine(basePath, xmlFilename);
         }
     }
 
@@ -45,7 +48,7 @@ public static class ServiceExtensions
                 //    Url = new Uri(""),
                 //}
             });
-            /*
+            
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -72,9 +75,8 @@ public static class ServiceExtensions
                         }, new List<string>()
                     },
             });
-            */
         });
-        /*
+        
         services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -91,7 +93,6 @@ public static class ServiceExtensions
                 ValidateAudience = false
             };
         });
-        */
     }
 
     /// <summary>
@@ -106,6 +107,8 @@ public static class ServiceExtensions
                 options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                // Ignoring circular references
+                //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             })
             ;

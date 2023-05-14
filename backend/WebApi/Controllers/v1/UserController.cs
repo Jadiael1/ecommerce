@@ -1,4 +1,5 @@
 using Application.DTOs.Error;
+using Application.DTOs.User;
 using Application.Exceptions;
 using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.DeleteUser;
@@ -7,6 +8,7 @@ using Application.Features.Users.Queries.GetUserById;
 using Application.Features.Users.Queries.GetUsers;
 using Application.Wrappers;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1;
@@ -15,6 +17,7 @@ namespace WebApi.Controllers.v1;
 /// 
 /// </summary>
 [ApiVersion("1.0")]
+// [Authorize(Roles = "admin, user")]
 public class UserController : BaseApiController
 {
     /// <summary>
@@ -22,7 +25,7 @@ public class UserController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<User>>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<ResponseUserDto>>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -37,7 +40,7 @@ public class UserController : BaseApiController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ResponseUserDto>))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]

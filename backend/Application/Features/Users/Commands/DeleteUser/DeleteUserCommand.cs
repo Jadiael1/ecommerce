@@ -21,12 +21,14 @@ public class DeleteUserCommand : IRequest<Response<User>>
 
         public async Task<Response<User>> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
+            /*
             var user = await _userRepositoryAsync.GetUserByIdAsync(command.Id);
             if (user == null)
             {
                 throw new KeyNotFoundException("User não localizado.");
             }
-            user = await _userRepositoryAsync.DeleteUserByIdAsync(user);
+            */
+            var user = await _userRepositoryAsync.DeleteUserByIdAsync(command);
             return new Response<User>(user, "Usuario Deletado Com Sucesso.");
         }
     }
