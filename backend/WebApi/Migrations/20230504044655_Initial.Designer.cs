@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230504041030_Initial")]
+    [Migration("20230504044655_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,8 +35,10 @@ namespace WebApi.Migrations
                         .HasColumnName("amount");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("UTC_TIMESTAMP()");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -45,7 +47,8 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("name");
 
                     b.Property<string>("Photo")
@@ -53,9 +56,8 @@ namespace WebApi.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("photo");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("longtext")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18, 2)")
                         .HasColumnName("price");
 
                     b.Property<string>("TechnicalInformation")
@@ -64,8 +66,10 @@ namespace WebApi.Migrations
                         .HasColumnName("technical_information");
 
                     b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("UTC_TIMESTAMP()");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

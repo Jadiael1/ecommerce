@@ -63,6 +63,11 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<User>().Property(u => u.IsActive).HasDefaultValue(false);
         builder.Entity<User>().Property(u => u.IsAdmin).HasDefaultValue(false);
         
+        
+        builder.Entity<Product>().Property(p => p.CreatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
+        builder.Entity<Product>().Property(p => p.UpdatedAt).HasDefaultValueSql("UTC_TIMESTAMP()");
+
+        
         /*
         builder.Entity<User>()
             .HasMany(c => c.Products)

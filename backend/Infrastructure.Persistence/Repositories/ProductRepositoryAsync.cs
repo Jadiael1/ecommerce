@@ -67,7 +67,8 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
 
     public async Task<Product?> GetProductByIdAsync(int id)
     {
-        return await _products.Include(p => p.UserId).FirstOrDefaultAsync(p => p.Id == id);
+        // .Include(p => p.UserId)
+        return await _products.FirstOrDefaultAsync(p => p.Id == id);
     }
 
     private void FilterByColumn(ref IQueryable<Product> products, GetProductsQuery requestParameter)
