@@ -4,7 +4,6 @@ using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Users.Queries.GetUserById;
 

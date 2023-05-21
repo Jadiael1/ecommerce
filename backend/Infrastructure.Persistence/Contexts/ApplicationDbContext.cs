@@ -71,10 +71,10 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<User>().Property(u => u.IsActive).HasColumnName("is_active").HasDefaultValue(false);
         builder.Entity<User>().Property<DateTime>(u => u.CreatedAt).HasColumnType("datetime")
             .HasColumnName("created_at")
-            .HasDefaultValueSql("NOW()");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP ");
         builder.Entity<User>().Property<DateTime>(u => u.UpdatedAt).HasColumnType("datetime")
             .HasColumnName("updated_at")
-            .HasDefaultValueSql("NOW()").ValueGeneratedOnUpdate();
+            .HasDefaultValueSql("CURRENT_TIMESTAMP ").ValueGeneratedOnAddOrUpdate();
         // set unique in field
         builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         // populate a user table
