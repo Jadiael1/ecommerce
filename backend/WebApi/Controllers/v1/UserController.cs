@@ -17,7 +17,7 @@ namespace WebApi.Controllers.v1;
 /// 
 /// </summary>
 [ApiVersion("1.0")]
-// [Authorize(Roles = "admin, user")]
+[Authorize(Roles = "admin, user")]
 public class UserController : BaseApiController
 {
     /// <summary>

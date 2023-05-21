@@ -15,7 +15,6 @@ namespace Infrastructure.Persistence.Repositories;
 public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductRepositoryAsync
 {
     private IDataShapeHelper<Product> _dataShaper;
-    private readonly ApplicationDbContext _dbContext;
     private readonly DbSet<Product> _products;
 
     public ProductRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Product> dataShaper) :
@@ -23,7 +22,6 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
     {
         _dataShaper = dataShaper;
         _products = dbContext.Set<Product>();
-        _dbContext = dbContext;
     }
 
     public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedProductsResponseAsync(

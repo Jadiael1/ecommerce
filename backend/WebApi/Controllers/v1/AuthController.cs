@@ -1,6 +1,9 @@
 using Application.DTOs.Error;
+using Application.DTOs.SignIn;
 using Application.Features.Authentication.Commands;
+using Application.Wrappers;
 using Infrastructure.Persistence.Contexts;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Services;
@@ -29,16 +32,14 @@ public class AuthController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SignInCommand))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ResponseSignInDto>))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [AllowAnonymous]
     public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
     {
-        // var user = await SignInRepositoryAsync.GetUserApiAsync(command, _context);
-        // command.Matricula = user.Id;
-        // command.UserName = user.UserName;
-        // command.Role = user.Role;
-        // command.Token = TokenService.GenerateToken(user);
+        var user = await AuthenticationRepositoryAsync.SignIn(command, _context);
+        command.User = user;
+        command.Token = TokenService.GenerateToken(user);
         var resp = await Mediator!.Send(command);
         return Ok(resp);
     }
