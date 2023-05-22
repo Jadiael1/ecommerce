@@ -1,11 +1,10 @@
-using System.Text.Json.Serialization;
 using Application.DTOs.SignIn;
-using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using System.Text.Json.Serialization;
 
 
 namespace Application.Features.Authentication.Commands;
@@ -23,13 +22,13 @@ public class SignInCommand : IRequest<Response<ResponseSignInDto>>
     {
         private readonly IAuthenticationRepositoryAsync _authenticationRepositoryAsync;
         private readonly IMapper _mapper;
-        
+
         public SignInCommandHandler(IAuthenticationRepositoryAsync authenticationRepositoryAsync, IMapper mapper)
         {
             _authenticationRepositoryAsync = authenticationRepositoryAsync;
             _mapper = mapper;
         }
-        
+
         public async Task<Response<ResponseSignInDto>> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             await Task.Delay(100);
@@ -43,6 +42,6 @@ public class SignInCommand : IRequest<Response<ResponseSignInDto>>
             response.User!.Password = "***********";
             return new Response<ResponseSignInDto>(response, "successful login");
         }
-        
+
     }
 }

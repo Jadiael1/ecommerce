@@ -1,8 +1,6 @@
 using Application.DTOs.User;
-using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
-using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Users.Queries.GetUserById;

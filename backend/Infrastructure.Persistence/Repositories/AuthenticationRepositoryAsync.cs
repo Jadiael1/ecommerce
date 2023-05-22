@@ -1,5 +1,3 @@
-using System.Net;
-using Application.Exceptions;
 using Application.Features.Authentication.Commands;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;

@@ -1,7 +1,6 @@
 using Application.DTOs.User;
 using Application.Features.Users.Commands.DeleteUser;
 using Application.Features.Users.Commands.UpdateUser;
-using Application.Features.Users.Queries.GetUserById;
 using Application.Features.Users.Queries.GetUsers;
 using Application.Parameters;
 using Domain.Entities;

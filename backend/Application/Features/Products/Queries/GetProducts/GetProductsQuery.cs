@@ -1,10 +1,8 @@
-using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Parameters;
 using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
-using System.Collections.Generic;
 
 namespace Application.Features.Products.Queries.GetProducts;
 

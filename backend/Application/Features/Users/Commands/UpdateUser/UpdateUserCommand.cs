@@ -1,4 +1,3 @@
-using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using AutoMapper;

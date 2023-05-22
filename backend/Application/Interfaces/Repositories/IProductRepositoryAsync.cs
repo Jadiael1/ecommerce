@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Application.Features.Products.Queries.GetProducts;
 using Application.Parameters;
 using Domain.Entities;

@@ -34,7 +34,7 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("UTC_TIMESTAMP()");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -61,10 +61,10 @@ namespace WebApi.Migrations
                         .HasColumnName("technical_information");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime(6)")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("UTC_TIMESTAMP()");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int")
@@ -80,131 +80,131 @@ namespace WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            Amount = 5,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 518, DateTimeKind.Utc).AddTicks(998),
-                            Description = "Ut labore quidem consequatur reprehenderit. Sapiente rerum nihil a consequatur iusto et ex. Ut omnis fugiat eligendi distinctio voluptatem omnis ad est.",
-                            Name = "Porro voluptatibus deserunt quia quas aut aut doloremque rerum commodi. Nam hic placeat quas quia atque dolore harum est consequuntur. Deleniti sint eum possimus omnis et sit quo tempore hic.",
+                            Amount = 10,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 177, DateTimeKind.Utc).AddTicks(8278),
+                            Description = "Blanditiis voluptatem dolores rerum maiores veritatis. Porro aut ut maxime quaerat veritatis et voluptatem.",
+                            Name = "Rerum fugit ullam asperiores ut molestiae amet. Vitae aliquid ea cumque voluptatem atque repellat est rerum. Sed qui facilis consequuntur. Repellat voluptas sit ea vero pariatur rerum vel.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 14m,
-                            TechnicalInformation = "Et officiis necessitatibus autem in corrupti omnis perspiciatis harum ut. Non aut quia nobis at animi dolor omnis nostrum. Corrupti dolores deleniti omnis harum nesciunt. Voluptate odio est nam sapiente maiores. Quod eaque animi ut ex alias velit iusto occaecati. Quos qui sint voluptas eos nihil quae corporis reiciendis. Assumenda ipsa velit illo voluptatem modi eius velit assumenda. Magni natus sed eum quis est fugiat velit dolor sit. Adipisci rem voluptatibus eos. Consequuntur consequatur culpa sunt nostrum ullam non optio sit voluptatem. Sint et reprehenderit doloremque veniam sunt molestiae qui dolorum.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 518, DateTimeKind.Utc).AddTicks(999),
+                            Price = 20m,
+                            TechnicalInformation = "Consequatur quia maiores velit impedit quod eos repellat. Ipsam placeat non pariatur nostrum molestias placeat. Cum autem enim voluptatem minima ducimus incidunt. Harum vel fugiat sequi eum expedita voluptatem tenetur est. Facilis enim in nostrum et iusto et quia et repellat. Quisquam nihil eum illo deleniti animi. Est cupiditate dicta porro quidem et vel quia. Dolores in perspiciatis esse quia. Eligendi corporis sit cupiditate. Molestias est repellendus nihil perspiciatis eum aperiam. Ipsum exercitationem ex officiis sit.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 177, DateTimeKind.Utc).AddTicks(8279),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Amount = 9,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 519, DateTimeKind.Utc).AddTicks(127),
-                            Description = "Totam repellat dicta et neque.",
-                            Name = "Quo porro sequi corrupti cumque quasi qui et sed sunt. Unde nam omnis non assumenda fugit repudiandae esse.",
+                            Amount = 5,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 178, DateTimeKind.Utc).AddTicks(5082),
+                            Description = "Adipisci qui eos qui enim delectus. Ut vitae porro totam reprehenderit nulla. In et facilis qui dolor enim sit.",
+                            Name = "Voluptas architecto consequatur modi asperiores corporis.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 13m,
-                            TechnicalInformation = "Iure fuga illum quia fugit et. Consequatur eveniet enim consequatur fugiat error. Aut aperiam quidem rerum. Eaque id sint totam optio sed ut eum nostrum. Quos cupiditate necessitatibus quia corrupti in. Nulla magnam nostrum laborum enim aut ab. Alias eveniet qui velit et occaecati in non cupiditate. Qui molestiae quidem non et officia consequuntur qui neque recusandae. Id officia modi explicabo nobis autem veritatis iusto dolorem. Harum modi officiis iusto ut quibusdam error. Excepturi odio voluptatem odio voluptatem eum officia non accusamus.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 519, DateTimeKind.Utc).AddTicks(127),
+                            Price = 20m,
+                            TechnicalInformation = "Quae rerum fugit adipisci. Autem consequatur enim qui id libero. Adipisci est ut laboriosam. Non rerum saepe nesciunt nihil. Accusamus omnis cumque facilis occaecati officia esse vero qui. Fugiat natus aut officia blanditiis. Enim molestias dicta qui voluptatum amet veniam culpa vitae qui. Est recusandae hic culpa eius tenetur. Tempora laboriosam eum et illum voluptas voluptas. Eius facilis in corrupti molestiae.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 178, DateTimeKind.Utc).AddTicks(5083),
                             UserId = 2
                         },
                         new
                         {
                             Id = 3,
-                            Amount = 8,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 520, DateTimeKind.Utc).AddTicks(1002),
-                            Description = "Neque ullam officia ut reiciendis autem est. In ut nihil perferendis perferendis id omnis architecto aut enim.",
-                            Name = "Voluptatum iusto dolores facilis accusantium nostrum non esse. At ullam qui distinctio praesentium ut et consequuntur maxime. Aut nulla dolores vitae.",
+                            Amount = 6,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 179, DateTimeKind.Utc).AddTicks(7585),
+                            Description = "Asperiores perspiciatis corporis et libero nisi fugit aut atque. Sunt ipsum ratione libero.",
+                            Name = "Molestiae velit consequatur cumque repellat quia. Maiores accusantium molestias libero non sint amet doloribus adipisci nihil. In adipisci nemo et enim eaque vero reiciendis sint voluptatibus. Soluta quas aut nisi aperiam et culpa libero autem.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 12m,
-                            TechnicalInformation = "Inventore nobis maiores facere consequatur nihil consequuntur laudantium nesciunt aut. Nostrum enim quis voluptate eius quaerat ut quis et. Sunt ullam optio est eum laboriosam exercitationem tenetur hic aspernatur. Sapiente libero nostrum ea sunt. Soluta exercitationem optio ut voluptas. Iure voluptatem occaecati consectetur. Aperiam occaecati qui commodi unde quia et voluptatem qui nihil. Tenetur qui maiores eos voluptas quia consequatur aut a officia. Minus est deserunt occaecati non. Omnis ea eaque voluptates quia. Occaecati et possimus placeat error omnis nihil et. Amet consectetur saepe saepe ipsam.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 520, DateTimeKind.Utc).AddTicks(1003),
+                            Price = 19m,
+                            TechnicalInformation = "Quaerat sint nihil delectus vel. Porro porro quia totam modi reiciendis autem nisi amet. Vel aut dolor aspernatur quod cumque rem reiciendis ut. Voluptatibus mollitia totam eveniet enim explicabo neque quia minus. Et eos atque accusantium magnam. Minus omnis et quo. Amet eius ut omnis dolore aut aut dolorum. Minima quasi ullam dolor ipsum. Ipsam molestiae tempora vero dolorem eos quam id sequi velit. Qui ea beatae eos consequuntur. Fugiat architecto neque blanditiis ipsa commodi iste id ut labore. Adipisci aut nisi iure corporis temporibus assumenda modi voluptatem sint. Similique voluptate quos molestiae qui qui voluptatem autem repudiandae tempora.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 179, DateTimeKind.Utc).AddTicks(7586),
                             UserId = 3
                         },
                         new
                         {
                             Id = 4,
-                            Amount = 3,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 521, DateTimeKind.Utc).AddTicks(1317),
-                            Description = "Cumque rerum nesciunt dolor nemo animi velit reprehenderit quo odio. Consequatur modi molestiae dolore soluta. Cum repellendus illo explicabo laboriosam sunt.",
-                            Name = "Voluptas quo nihil debitis rerum inventore et. Quae qui culpa nobis magni. Ipsam rerum molestiae corrupti quo eaque distinctio.",
+                            Amount = 8,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 180, DateTimeKind.Utc).AddTicks(6235),
+                            Description = "Voluptas reprehenderit non cupiditate vitae.",
+                            Name = "Sit qui qui a.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 11m,
-                            TechnicalInformation = "Voluptatem qui nihil et eos et est aspernatur et nemo. Dolores officiis et architecto sit ut ad architecto error. Labore voluptatem sequi deserunt accusantium eos iure. Veniam culpa qui dolorum. Et vel illo repellendus voluptates provident iste tempore sed quo. Facere ratione quia eveniet exercitationem. Cupiditate vel voluptates consequuntur aut et in assumenda. Minus sapiente quae commodi eveniet dolor voluptatem dicta. Saepe aut autem quam et est consequatur sed libero. Quia sequi voluptate qui voluptates aperiam et necessitatibus odio.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 521, DateTimeKind.Utc).AddTicks(1317),
+                            Price = 17m,
+                            TechnicalInformation = "Non eaque sint voluptatem qui. Repudiandae hic ut sit at labore. Expedita voluptas distinctio nihil eaque neque. Modi minus necessitatibus omnis aperiam voluptatem iusto quia aut. Sunt dicta praesentium itaque facilis distinctio quisquam cupiditate amet sint. Esse aut delectus ut quas et alias. Itaque reiciendis similique dolorem. Molestiae commodi cupiditate qui harum. Tempore est minus cumque minima alias. Ea nobis numquam qui autem necessitatibus. Est sed ea odio dolore est harum sit sed at. Neque quae totam illum itaque minima sed labore harum ut. Voluptatem maiores consequatur at aspernatur sit.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 180, DateTimeKind.Utc).AddTicks(6236),
                             UserId = 4
                         },
                         new
                         {
                             Id = 5,
-                            Amount = 4,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 521, DateTimeKind.Utc).AddTicks(8559),
-                            Description = "Repellendus expedita dicta qui excepturi rerum minus.",
-                            Name = "Sint quis neque voluptate eum corporis nisi vero ipsam.",
+                            Amount = 1,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 181, DateTimeKind.Utc).AddTicks(7381),
+                            Description = "Possimus accusantium et molestiae minus voluptate. Et omnis officiis neque excepturi. Corporis inventore aut id accusamus ratione. Non ducimus quam et eius ut numquam.",
+                            Name = "Eum enim eius ipsum et distinctio vel magnam soluta et. Quia numquam enim maiores. Dolorum et ratione mollitia et. Voluptatum dolorum tenetur nostrum.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 12m,
-                            TechnicalInformation = "Aliquid delectus odio eum consequuntur. Dolor temporibus qui sed. Ut perferendis sit ut. Alias dolores et consequuntur aperiam quam quam suscipit ut ea. Ea dignissimos velit qui nesciunt quia odio. Et soluta iusto nihil corporis cumque. Totam corrupti corporis numquam totam. Aperiam totam ad et sequi explicabo amet nemo. Molestiae id ex accusantium. Modi praesentium consequatur eligendi fugiat et. Voluptatem natus provident totam sint id consectetur.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 521, DateTimeKind.Utc).AddTicks(8559),
+                            Price = 14m,
+                            TechnicalInformation = "Sapiente cupiditate et minus dolores hic excepturi asperiores laudantium. Dignissimos quae officiis qui voluptas quia voluptas neque ipsa amet. Quia dicta rerum nemo perferendis blanditiis. Aut nesciunt facere animi quo excepturi corporis iusto nulla dolore. Ut voluptate quidem ducimus eaque voluptatem placeat. Eveniet voluptates animi quaerat odit. Omnis illum laboriosam omnis tempora omnis error. Voluptatibus tempore sapiente qui. Omnis possimus corrupti eius nobis nam aspernatur. Reprehenderit ipsam veritatis veniam. Ut ut ut quo. Rerum quis magnam optio dolor amet eius ex voluptates.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 181, DateTimeKind.Utc).AddTicks(7382),
                             UserId = 5
                         },
                         new
                         {
                             Id = 6,
-                            Amount = 10,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 522, DateTimeKind.Utc).AddTicks(9275),
-                            Description = "Ea ipsum repellat labore animi explicabo quo porro recusandae sunt. Dolorem commodi dolor consequuntur tenetur excepturi nihil dignissimos sequi id.",
-                            Name = "Pariatur hic corrupti sit.",
+                            Amount = 6,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 182, DateTimeKind.Utc).AddTicks(5713),
+                            Description = "Sunt quibusdam qui aut. In tempora et mollitia inventore dolores.",
+                            Name = "Veniam debitis consequatur cupiditate ipsa inventore temporibus vitae non iure.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 11m,
-                            TechnicalInformation = "Necessitatibus occaecati et quia ea eum esse error et soluta. Sed est magnam aliquam sunt quia possimus aperiam occaecati. Et veritatis consequatur vel et dicta. Reiciendis culpa et quibusdam odio saepe. Quibusdam voluptatem est vitae adipisci temporibus expedita ut optio molestias. Culpa dolores eius recusandae sit quos. Ad enim ut sint. Omnis voluptas sint a earum. Repellendus saepe repudiandae ut est veritatis commodi aspernatur quod voluptas. Doloribus quis laudantium ullam sed non dolore facere reprehenderit molestiae. Rerum id eaque et voluptas sint inventore aspernatur accusantium. Soluta nam quidem aut. Eligendi consequuntur hic repellat iure aut ea sunt voluptas qui.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 522, DateTimeKind.Utc).AddTicks(9276),
+                            Price = 17m,
+                            TechnicalInformation = "Nulla iure atque est dolorum itaque quam nulla commodi. Non ipsam molestias dolorum exercitationem sint numquam repellat iste exercitationem. Commodi vitae atque saepe. Eos doloribus magnam vel debitis et dicta. Sequi voluptatem velit porro. Dicta omnis saepe quo voluptatem distinctio eaque assumenda quam. Similique perspiciatis ex aut molestiae iure aut. Et enim qui repellat cupiditate. Sint non qui odio facere aperiam in eum ducimus. Odio repellat autem possimus consequuntur rerum eum natus maxime. Dignissimos eius cupiditate animi qui tenetur facilis.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 182, DateTimeKind.Utc).AddTicks(5713),
                             UserId = 6
                         },
                         new
                         {
                             Id = 7,
-                            Amount = 9,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 524, DateTimeKind.Utc).AddTicks(1811),
-                            Description = "Ipsum vel veniam reiciendis iure nisi aut repudiandae autem. Nemo aliquid omnis inventore voluptatem dignissimos quia porro consequatur quia. Blanditiis et aut necessitatibus et. Quis enim neque deserunt.",
-                            Name = "Quis consequuntur eius autem ut voluptas distinctio. Hic nemo tempore qui maiores sapiente quod.",
+                            Amount = 10,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 183, DateTimeKind.Utc).AddTicks(5005),
+                            Description = "Sapiente harum fugit ex velit maiores. Quod maxime sit facere eaque ut exercitationem eum dolore.",
+                            Name = "Sit provident omnis voluptatem aut neque voluptate. Non voluptatem sit alias vitae. Ut fugiat unde ab perferendis beatae cumque.",
                             Photo = "https://loremflickr.com/640/480/abstract",
                             Price = 19m,
-                            TechnicalInformation = "Quia tempore doloribus iusto animi at neque. Molestias quaerat est consectetur ullam qui sint magnam neque aut. Fugit sit beatae omnis. Ut enim inventore molestiae vel quam dolor sed qui ducimus. Temporibus dignissimos rerum aut qui esse. Qui quaerat at et error. Aut ad illo rerum ipsa reiciendis modi nulla odio commodi. Quis excepturi quia temporibus cupiditate eveniet. Totam eius sunt reprehenderit accusamus recusandae qui et. Quo voluptatem aut molestias quia et ipsa in eveniet aperiam. Repellendus incidunt non enim commodi sit quo vitae illo. Iusto doloremque aut veniam libero. Omnis et dolor sapiente odio error.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 524, DateTimeKind.Utc).AddTicks(1811),
+                            TechnicalInformation = "Nobis voluptatem a ut. Debitis sit accusantium similique beatae omnis aut quo. Perspiciatis natus odit quia aut molestiae dolores. Perferendis similique voluptas voluptate architecto ipsam. Id dolores et qui numquam ab. Alias voluptatem natus non dolores aut. Nihil sit nihil sed voluptatem aut et. Ullam velit rerum sed placeat. Consectetur et dignissimos a necessitatibus commodi sunt quidem quia. Asperiores dolorem aut ullam. Voluptatum eum nemo vero consequatur. Pariatur alias dolor eaque hic beatae expedita cum magni vel. Ab repudiandae blanditiis assumenda quia.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 183, DateTimeKind.Utc).AddTicks(5006),
                             UserId = 7
                         },
                         new
                         {
                             Id = 8,
-                            Amount = 6,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 525, DateTimeKind.Utc).AddTicks(4004),
-                            Description = "Eum omnis animi reprehenderit impedit necessitatibus molestias optio autem omnis. Earum nihil repellendus ut velit quae aut quo quam. Fugit omnis amet saepe necessitatibus quo.",
-                            Name = "Non omnis incidunt ipsum temporibus facere cum molestiae quia. Qui ut at aut atque voluptatum non rerum accusantium. Quia accusantium ratione dolores iure.",
+                            Amount = 3,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 184, DateTimeKind.Utc).AddTicks(5132),
+                            Description = "Iste excepturi quas provident. At quo et aut corrupti quia expedita quibusdam modi. Et et reiciendis modi. Adipisci incidunt eligendi numquam quia.",
+                            Name = "Voluptatem assumenda quia deserunt accusamus voluptas fuga maiores sunt eum. Ipsa ullam suscipit perferendis.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 14m,
-                            TechnicalInformation = "Blanditiis libero dolorem omnis nihil atque vitae quibusdam harum sapiente. Enim aut occaecati voluptates voluptate velit consequatur sit laborum magni. Magni voluptas blanditiis deserunt. Illum velit non harum atque dolor velit ut distinctio. At sed vel ut labore. Optio voluptatem sed mollitia quidem sequi repellendus. Fugiat sed dolorum et voluptates ducimus quas. Consectetur nobis et dolores doloremque alias sint. Modi similique et excepturi impedit totam quia est suscipit voluptatem. Fuga tempore repudiandae saepe. Omnis dolores dolorum molestiae similique. Voluptates qui est velit voluptatum harum.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 525, DateTimeKind.Utc).AddTicks(4004),
+                            Price = 18m,
+                            TechnicalInformation = "Maxime facilis libero architecto quas ut mollitia dicta voluptas est. Magnam voluptatum praesentium ullam accusamus sapiente beatae aperiam molestias corrupti. Sint sit nostrum maxime sed a autem. Ad culpa eum sequi facilis eveniet. Est autem provident ut iusto. Quo quod enim error. Dolorem sequi blanditiis nemo corporis aut. Quo cupiditate exercitationem voluptatibus mollitia earum aut commodi molestias. Voluptatum voluptatibus aut aut illo optio libero consectetur iusto sit. Aut unde aliquam esse commodi quas qui odio. Voluptate maxime maxime hic amet molestias eligendi facilis. Adipisci sed rem consequatur. Inventore dolor qui ipsum culpa sapiente similique.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 184, DateTimeKind.Utc).AddTicks(5133),
                             UserId = 8
                         },
                         new
                         {
                             Id = 9,
-                            Amount = 1,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 526, DateTimeKind.Utc).AddTicks(3426),
-                            Description = "Quaerat nemo magni iste suscipit.",
-                            Name = "Esse sunt repudiandae esse aut non. Non debitis ullam incidunt dolores molestias hic voluptates eaque enim. Consequatur rerum tempore incidunt maiores aut quaerat sed. Est non qui voluptas.",
+                            Amount = 6,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 185, DateTimeKind.Utc).AddTicks(6370),
+                            Description = "In qui voluptate molestias architecto recusandae hic quia quia. Voluptas incidunt et dolorem laborum sit nulla quidem laboriosam unde. Distinctio deserunt eligendi fugit. Delectus aut tempora et doloremque.",
+                            Name = "Magnam sunt debitis neque. Esse deleniti voluptate deleniti ut dolorem omnis magnam illo placeat. Occaecati velit occaecati et id. Ut eveniet consequatur delectus saepe et.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 10m,
-                            TechnicalInformation = "Et est aut voluptates et voluptatem laborum ut consectetur. Ipsam incidunt reprehenderit culpa dolor. Suscipit eveniet unde adipisci nobis quos modi possimus. Consequatur cum non rem debitis eius. Assumenda provident dolore sit temporibus. Consequatur aperiam minima libero aut. Sit ea alias voluptas eos. Ea tempore officia iure odit magnam aliquid voluptates dicta atque. Eius blanditiis et qui suscipit distinctio vero laborum aliquid. Id numquam necessitatibus eum atque delectus sapiente culpa aliquam.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 526, DateTimeKind.Utc).AddTicks(3426),
+                            Price = 13m,
+                            TechnicalInformation = "Laborum minima facere qui repellendus eum beatae placeat sed tenetur. Quisquam doloremque inventore recusandae aperiam. Ea voluptas facilis nisi saepe. Dicta dolor suscipit earum quibusdam ratione. Dolores voluptas voluptas et. Natus dignissimos similique quis dignissimos repellendus accusamus. Animi sed repellendus ex officiis tenetur. Tenetur ipsam molestias sed maxime accusamus laboriosam. Excepturi perferendis harum sit assumenda quo blanditiis. Amet porro quisquam aut nam quibusdam porro voluptate unde asperiores. Vel sint cupiditate provident consequatur aut cum omnis. Aliquam ut nam sed enim magnam. Libero ad blanditiis neque deserunt quis aut ut similique.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 185, DateTimeKind.Utc).AddTicks(6370),
                             UserId = 9
                         },
                         new
                         {
                             Id = 10,
-                            Amount = 3,
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 527, DateTimeKind.Utc).AddTicks(5513),
-                            Description = "Sint quis quibusdam recusandae sed et facilis repellat at. Voluptas omnis rerum fugit omnis sed et nihil.",
-                            Name = "Voluptas harum dolores architecto quis autem. Sunt molestias dignissimos unde praesentium similique. Beatae sint ex eos nulla rerum corporis nesciunt id. Expedita minus et ut repellendus voluptatem et.",
+                            Amount = 5,
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 186, DateTimeKind.Utc).AddTicks(3656),
+                            Description = "Eum reprehenderit dolore sed voluptatum nihil nesciunt voluptas. Debitis et consequuntur eum qui aperiam necessitatibus.",
+                            Name = "Blanditiis veniam sit sapiente aut.",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Price = 15m,
-                            TechnicalInformation = "Quo ut deleniti id nostrum a eaque sequi voluptatum porro. Velit aspernatur amet laboriosam est et earum. Optio dicta velit laborum et nam sapiente qui sapiente. Eius quia autem veritatis aut numquam repellendus consequatur. Assumenda nihil alias nulla consequuntur est ratione corrupti architecto natus. Provident mollitia rerum nostrum enim sit occaecati. Aliquam assumenda iste minus quos quia quia vel quam. Et quaerat rem molestias officia. Quis similique aut nobis et reprehenderit est. Voluptatem facere omnis eum est doloribus fugiat et. Et quod omnis rerum quisquam.",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 527, DateTimeKind.Utc).AddTicks(5514),
+                            Price = 12m,
+                            TechnicalInformation = "Voluptatem suscipit eum sit tempore qui impedit repellat hic. Aliquam fugit iure architecto veniam qui. Aliquam praesentium vel saepe. Repellat minus asperiores sequi perferendis. Architecto et sunt qui consectetur et tempora dolorem eveniet. Alias eos quam quia vel est dolorum praesentium architecto. Dolor aut laborum totam. Reiciendis suscipit asperiores tempora earum. Labore sint id eveniet odio et. Voluptatem quia labore autem odio fugiat autem. Enim asperiores similique autem accusamus at aut rerum corrupti consectetur.",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 186, DateTimeKind.Utc).AddTicks(3656),
                             UserId = 10
                         });
                 });
@@ -224,7 +224,7 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasColumnName("created_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP ");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -277,7 +277,7 @@ namespace WebApi.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime")
                         .HasColumnName("updated_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP ");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
@@ -290,162 +290,162 @@ namespace WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            BirthDate = new DateTime(1954, 8, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(470),
-                            Email = "idell@fadel.com",
+                            BirthDate = new DateTime(1925, 1, 21, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 172, DateTimeKind.Utc).AddTicks(742),
+                            Email = "filomena.rowe@langworth.name",
                             IsActive = false,
-                            IsAdmin = false,
-                            Login = "bryon",
-                            Name = "Mossie",
-                            Password = "Doloribus ut id facere et ab.",
-                            Phone = "4149297509",
+                            IsAdmin = true,
+                            Login = "jaleel_pfannerstill",
+                            Name = "Adela",
+                            Password = "Sed aut autem et quia at. Accusantium at aut animi saepe voluptas qui. Similique quas occaecati quaerat totam. Dolor ex consectetur dolor architecto.",
+                            Phone = "3327509069",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Towne",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(471)
+                            Surname = "Hammes",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 172, DateTimeKind.Utc).AddTicks(742)
                         },
                         new
                         {
                             Id = 2,
-                            BirthDate = new DateTime(1924, 12, 23, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(5304),
-                            Email = "rita.ruecker@mccullough.co.uk",
+                            BirthDate = new DateTime(1916, 1, 3, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 172, DateTimeKind.Utc).AddTicks(5931),
+                            Email = "raheem@wildermanroob.ca",
                             IsActive = true,
                             IsAdmin = true,
-                            Login = "graham",
-                            Name = "Cecile",
-                            Password = "Neque consectetur fugit similique nihil et nihil et magnam repellat. Neque officiis officiis et.",
-                            Phone = "7834931970",
+                            Login = "murray",
+                            Name = "Taryn",
+                            Password = "Eaque labore officiis id sapiente architecto in excepturi est laboriosam. Est est animi delectus aut qui ipsa et. Delectus incidunt corporis consequuntur hic rerum at laborum ad quasi.",
+                            Phone = "9412298404",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Blick",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(5305)
+                            Surname = "Stokes",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 172, DateTimeKind.Utc).AddTicks(5931)
                         },
                         new
                         {
                             Id = 3,
-                            BirthDate = new DateTime(1913, 4, 18, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(9460),
-                            Email = "houston_hyatt@leannon.co.uk",
-                            IsActive = false,
-                            IsAdmin = false,
-                            Login = "wiley",
-                            Name = "Amina",
-                            Password = "Cum eveniet dolorem ab tempore commodi et est.",
-                            Phone = "0768136148",
+                            BirthDate = new DateTime(1975, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 173, DateTimeKind.Utc).AddTicks(135),
+                            Email = "ken@jones.biz",
+                            IsActive = true,
+                            IsAdmin = true,
+                            Login = "malika",
+                            Name = "Scot",
+                            Password = "Maiores repudiandae praesentium delectus vel et quo nam aut.",
+                            Phone = "9193680910",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Corwin",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 512, DateTimeKind.Utc).AddTicks(9460)
+                            Surname = "Littel",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 173, DateTimeKind.Utc).AddTicks(135)
                         },
                         new
                         {
                             Id = 4,
-                            BirthDate = new DateTime(1940, 8, 4, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 513, DateTimeKind.Utc).AddTicks(4289),
-                            Email = "cara@leannon.name",
+                            BirthDate = new DateTime(1962, 4, 14, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 173, DateTimeKind.Utc).AddTicks(5939),
+                            Email = "ernestine_rempel@eichmann.ca",
                             IsActive = true,
-                            IsAdmin = true,
-                            Login = "amir",
-                            Name = "Destiney",
-                            Password = "Aut repudiandae aliquam occaecati. Praesentium dolor libero a qui voluptas et.",
-                            Phone = "5360938382",
+                            IsAdmin = false,
+                            Login = "anne.roob",
+                            Name = "Jedediah",
+                            Password = "Eius quia soluta id dolore sit aut dignissimos magnam. Quaerat qui iusto aut ut autem nostrum. Dolor alias nesciunt sit hic autem ipsum. Vero quaerat accusantium et ea provident ut natus.",
+                            Phone = "2755253193",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Lehner",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 513, DateTimeKind.Utc).AddTicks(4290)
+                            Surname = "Padberg",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 173, DateTimeKind.Utc).AddTicks(5939)
                         },
                         new
                         {
                             Id = 5,
-                            BirthDate = new DateTime(1933, 8, 9, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(232),
-                            Email = "magdalen@dietrich.uk",
-                            IsActive = true,
+                            BirthDate = new DateTime(1989, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 174, DateTimeKind.Utc).AddTicks(920),
+                            Email = "carmelo@gerlach.info",
+                            IsActive = false,
                             IsAdmin = true,
-                            Login = "charlene.blanda",
-                            Name = "Ciara",
-                            Password = "Omnis qui iure illo quo quos quia. Excepturi ut maxime qui unde a odio rerum aut. Inventore quis soluta sint ea consectetur quam laudantium.",
-                            Phone = "9327830512",
+                            Login = "ernesto_hauck",
+                            Name = "Llewellyn",
+                            Password = "Sit voluptates totam commodi asperiores voluptas. Dignissimos quia similique est. Earum praesentium dolor libero laboriosam et dolore molestias sit nemo.",
+                            Phone = "3849108155",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Mohr",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(233)
+                            Surname = "Kuvalis",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 174, DateTimeKind.Utc).AddTicks(920)
                         },
                         new
                         {
                             Id = 6,
-                            BirthDate = new DateTime(1902, 8, 7, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(5048),
-                            Email = "alysson@leuschke.co.uk",
+                            BirthDate = new DateTime(1920, 5, 12, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 174, DateTimeKind.Utc).AddTicks(5487),
+                            Email = "karolann.labadie@hoegerdibbert.us",
                             IsActive = true,
                             IsAdmin = true,
-                            Login = "torey",
-                            Name = "Moses",
-                            Password = "Aspernatur excepturi aut expedita. Et et dolores et quibusdam.",
-                            Phone = "2962191363",
+                            Login = "alexane_stiedemann",
+                            Name = "Antonio",
+                            Password = "Laborum debitis laboriosam accusantium quidem enim ipsa possimus at quo. Hic sed quia nostrum.",
+                            Phone = "3680532431",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Wintheiser",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(5048)
+                            Surname = "Hyatt",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 174, DateTimeKind.Utc).AddTicks(5487)
                         },
                         new
                         {
                             Id = 7,
-                            BirthDate = new DateTime(2018, 1, 4, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(9977),
-                            Email = "everardo.steuber@blanda.co.uk",
-                            IsActive = false,
+                            BirthDate = new DateTime(1976, 5, 31, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 175, DateTimeKind.Utc).AddTicks(552),
+                            Email = "alfredo_bahringer@kreigerwalsh.com",
+                            IsActive = true,
                             IsAdmin = true,
-                            Login = "mallie",
-                            Name = "Dean",
-                            Password = "Cumque voluptates delectus ea sequi soluta. Voluptates earum neque perferendis voluptatem cum cumque.",
-                            Phone = "1931092036",
+                            Login = "derick",
+                            Name = "Terry",
+                            Password = "Ipsum delectus aut laboriosam id ipsum culpa.",
+                            Phone = "2811251987",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Spencer",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 514, DateTimeKind.Utc).AddTicks(9977)
+                            Surname = "Blanda",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 175, DateTimeKind.Utc).AddTicks(552)
                         },
                         new
                         {
                             Id = 8,
-                            BirthDate = new DateTime(1903, 1, 24, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 515, DateTimeKind.Utc).AddTicks(6305),
-                            Email = "doyle.cremin@kassulke.biz",
+                            BirthDate = new DateTime(1995, 9, 13, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 175, DateTimeKind.Utc).AddTicks(7140),
+                            Email = "hans@nicolas.us",
                             IsActive = true,
                             IsAdmin = false,
-                            Login = "buddy",
-                            Name = "Alfredo",
-                            Password = "Et autem est impedit tempora aspernatur. Exercitationem occaecati et expedita veniam fugiat in voluptas occaecati. Dolores deleniti unde saepe dignissimos dolor blanditiis voluptatem. Impedit voluptas id odit.",
-                            Phone = "4833079151",
+                            Login = "jailyn_pouros",
+                            Name = "Bridget",
+                            Password = "Excepturi animi quos consequuntur. Dolorem sint at necessitatibus. Saepe nesciunt rerum fugit repellat exercitationem quia velit et. Qui voluptatum dignissimos commodi sed et et ullam laborum atque.",
+                            Phone = "3379684333",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Luettgen",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 515, DateTimeKind.Utc).AddTicks(6305)
+                            Surname = "Parker",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 175, DateTimeKind.Utc).AddTicks(7141)
                         },
                         new
                         {
                             Id = 9,
-                            BirthDate = new DateTime(1967, 3, 27, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 516, DateTimeKind.Utc).AddTicks(1775),
-                            Email = "rollin_cole@oharalubowitz.biz",
-                            IsActive = true,
+                            BirthDate = new DateTime(1918, 11, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 176, DateTimeKind.Utc).AddTicks(1119),
+                            Email = "jeanette_harber@hoeger.co.uk",
+                            IsActive = false,
                             IsAdmin = true,
-                            Login = "olaf",
-                            Name = "Mallory",
-                            Password = "Cum est qui dignissimos repellendus beatae qui dolore. Cumque sed sed nesciunt veritatis vero ullam.",
-                            Phone = "4490828977",
+                            Login = "cristian",
+                            Name = "Obie",
+                            Password = "Et sequi qui quibusdam enim sit et ex.",
+                            Phone = "3872855697",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Fritsch",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 516, DateTimeKind.Utc).AddTicks(1775)
+                            Surname = "Kiehn",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 176, DateTimeKind.Utc).AddTicks(1119)
                         },
                         new
                         {
                             Id = 10,
-                            BirthDate = new DateTime(1938, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            CreatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 516, DateTimeKind.Utc).AddTicks(6768),
-                            Email = "ralph.oberbrunner@spenceroconner.ca",
-                            IsActive = true,
-                            IsAdmin = false,
-                            Login = "watson_mayer",
-                            Name = "Jayda",
-                            Password = "Totam et deleniti consectetur magni rerum. Libero perferendis voluptatem magni.",
-                            Phone = "8271100459",
+                            BirthDate = new DateTime(1960, 5, 4, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 176, DateTimeKind.Utc).AddTicks(6697),
+                            Email = "jazlyn@osinskifarrell.co.uk",
+                            IsActive = false,
+                            IsAdmin = true,
+                            Login = "madisyn_mueller",
+                            Name = "Ed",
+                            Password = "Doloremque harum dolores incidunt et est dolor architecto. Corporis beatae accusamus iusto amet fugiat cum beatae. Sapiente qui placeat et nihil voluptatum qui. Laudantium quia dolore fugiat id qui consequatur.",
+                            Phone = "2715806175",
                             Photo = "https://loremflickr.com/640/480/abstract",
-                            Surname = "Labadie",
-                            UpdatedAt = new DateTime(2023, 5, 21, 4, 24, 3, 516, DateTimeKind.Utc).AddTicks(6769)
+                            Surname = "Gerhold",
+                            UpdatedAt = new DateTime(2023, 5, 21, 4, 57, 16, 176, DateTimeKind.Utc).AddTicks(6698)
                         });
                 });
 

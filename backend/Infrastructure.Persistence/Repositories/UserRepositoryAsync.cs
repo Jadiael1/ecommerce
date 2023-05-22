@@ -1,9 +1,6 @@
-﻿using System.Linq.Dynamic.Core;
-using Application.DTOs.User;
-using Application.Exceptions;
+﻿using Application.DTOs.User;
 using Application.Features.Users.Commands.DeleteUser;
 using Application.Features.Users.Commands.UpdateUser;
-using Application.Features.Users.Queries.GetUserById;
 using Application.Features.Users.Queries.GetUsers;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
@@ -14,7 +11,7 @@ using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repository;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
-using Extensions = LinqKit.Core.Extensions;
+using System.Linq.Dynamic.Core;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -86,7 +83,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
         }
 
         result = result.Skip((pageNumber - 1) * pageSize).Take(pageSize);
-        
+
         var resultData = await result.Select(u => new User
         {
             Id = u.Id,
@@ -104,7 +101,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
             CreatedAt = u.CreatedAt,
             UpdatedAt = u.UpdatedAt
         }).ToListAsync();
-        
+
         if (resultData?.Count == 0 || resultData == null)
         {
             throw new KeyNotFoundException("Nenhum user foi localizado.");

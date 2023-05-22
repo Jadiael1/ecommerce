@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Domain.Settings;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi.Extensions;
 /// <summary>
@@ -48,7 +48,7 @@ public static class ServiceExtensions
                 //    Url = new Uri(""),
                 //}
             });
-            
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -58,7 +58,7 @@ public static class ServiceExtensions
                 BearerFormat = "JWT",
                 Description = "Informe o token para realizar requisições na API. Ex.: Bearer {TOKEN}",
             });
-            
+
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                     {
@@ -76,7 +76,7 @@ public static class ServiceExtensions
                     },
             });
         });
-        
+
         services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

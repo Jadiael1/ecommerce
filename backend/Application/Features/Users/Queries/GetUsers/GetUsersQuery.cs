@@ -1,11 +1,8 @@
-﻿using Application.Interfaces;
-using Application.Interfaces.Repositories;
+﻿using Application.Interfaces.Repositories;
 using Application.Parameters;
 using Application.Wrappers;
 using Domain.Entities;
 using MediatR;
-using System.Collections.Generic;
-using Application.DTOs.User;
 
 namespace Application.Features.Users.Queries.GetUsers;
 

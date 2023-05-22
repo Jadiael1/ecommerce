@@ -1,4 +1,5 @@
 using Application.DTOs.Error;
+using Application.Features.Products.Commands.CreateProduct;
 using Application.Features.Products.Queries.GetProducts;
 using Application.Features.Products.Queries.GetProductsById;
 using Application.Wrappers;
@@ -10,6 +11,7 @@ namespace WebApi.Controllers.v1;
 /// 
 /// </summary>
 [ApiVersion("1.0")]
+// [Authorize(Roles = "admin, user")]
 public class ProductController : BaseApiController
 {
     /// <summary>
@@ -25,7 +27,7 @@ public class ProductController : BaseApiController
     {
         return Ok(await Mediator!.Send(filter));
     }
-    
+
     /// <summary>
     /// Get api/controller, CRUD > Get by id
     /// </summary>
@@ -40,4 +42,23 @@ public class ProductController : BaseApiController
     {
         return Ok(await Mediator!.Send(new GetProductsByIdQuery { Id = id }));
     }
+
+    /// <summary>
+    /// POST api/controller, CRUD > Create
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> Post([FromForm] CreateProductCommand command)
+    {
+        var claimsPrincipal = HttpContext.User;
+        if (claimsPrincipal.Claims.Any() && int.TryParse(claimsPrincipal.Claims.First().Value, out int userID))
+        {
+            command.UserId = userID;
+        }
+        return CreatedAtAction(nameof(Post), await Mediator!.Send(command));
+    }
+
 }

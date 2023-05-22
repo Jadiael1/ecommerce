@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Application;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
@@ -19,7 +18,6 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
 
 // inject dependencies
 builder.Services.AddApplicationLayer();

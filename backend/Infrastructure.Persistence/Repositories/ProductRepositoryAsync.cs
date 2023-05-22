@@ -1,6 +1,4 @@
-using System.Linq.Dynamic.Core;
 using Application.Features.Products.Queries.GetProducts;
-using Application.Features.Users.Queries.GetUsers;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Parameters;
@@ -9,6 +7,7 @@ using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repository;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -48,7 +47,7 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         }
 
         result = result.Include(p => p.User);
-        
+
         if (!string.IsNullOrWhiteSpace(fields))
         {
             result = result.Select<Product>("new(" + fields + ")");

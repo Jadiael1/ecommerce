@@ -1,6 +1,5 @@
 using Application.DTOs.Error;
 using Application.DTOs.User;
-using Application.Exceptions;
 using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.DeleteUser;
 using Application.Features.Users.Commands.UpdateUser;
@@ -57,7 +56,8 @@ public class UserController : BaseApiController
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<User>))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
-    public async Task<IActionResult> Post(CreateUserCommand command)
+    [AllowAnonymous]
+    public async Task<IActionResult> Post([FromForm] CreateUserCommand command)
     {
         return CreatedAtAction(nameof(Post), await Mediator!.Send(command));
     }

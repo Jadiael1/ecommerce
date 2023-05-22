@@ -17,6 +17,7 @@ git config user.name "Jadiael"
 git config user.email Jadiael@hotmail.com.br
 git add .
 git add --all
+git pull origin main
 git commit -am "chore: Update files %date%-%time:~0,2%-%time:~3,2%-%time:~6,2%"
 git push origin main
 endlocal

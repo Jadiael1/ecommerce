@@ -69,12 +69,9 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<User>().Property(u => u.Photo).HasColumnName("photo");
         builder.Entity<User>().Property(u => u.IsAdmin).HasColumnName("is_admin").HasDefaultValue(false);
         builder.Entity<User>().Property(u => u.IsActive).HasColumnName("is_active").HasDefaultValue(false);
-        builder.Entity<User>().Property<DateTime>(u => u.CreatedAt).HasColumnType("datetime")
-            .HasColumnName("created_at")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP ");
-        builder.Entity<User>().Property<DateTime>(u => u.UpdatedAt).HasColumnType("datetime")
-            .HasColumnName("updated_at")
-            .HasDefaultValueSql("CURRENT_TIMESTAMP ").ValueGeneratedOnAddOrUpdate();
+        builder.Entity<User>().Property(u => u.CreatedAt).HasColumnType("datetime").HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnName("created_at");
+        builder.Entity<User>().Property(u => u.UpdatedAt).HasColumnType("datetime").HasColumnName("updated_at").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
+
         // set unique in field
         builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         // populate a user table
@@ -112,9 +109,9 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<Product>().Property(u => u.TechnicalInformation).HasColumnName("technical_information");
         builder.Entity<Product>().Property(u => u.UserId).HasColumnName("user_id");
         builder.Entity<Product>().Property(u => u.CreatedAt).HasColumnName("created_at")
-            .HasDefaultValueSql("UTC_TIMESTAMP()");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
         builder.Entity<Product>().Property(u => u.UpdatedAt).HasColumnName("updated_at")
-            .HasDefaultValueSql("UTC_TIMESTAMP()");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
         // populate a products table
         var products = new List<Product>();
         for (var i = 1; i <= 10; i++)
@@ -129,25 +126,13 @@ public sealed class ApplicationDbContext : DbContext
                 Price = Faker.RandomNumber.Next(10, 20),
                 TechnicalInformation = Faker.Lorem.Paragraph(10),
                 UserId = i,
-                CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
             products.Add(product);
         }
 
         builder.Entity<Product>().HasData(products);
-
-        /*
-        builder.Entity<Product>()
-            .HasOne(_ => _.User)
-            .WithMany(u => u.Products)
-            .HasForeignKey(p => p.UserId);
-        
-        builder.Entity<User>()
-            .HasMany(c => c.Products)
-            .WithOne(e => e.User)
-            .HasForeignKey(p => p.UserId);
-        */
-
 
         base.OnModelCreating(builder);
     }

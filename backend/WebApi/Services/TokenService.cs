@@ -1,4 +1,5 @@
-﻿using Domain.Settings;
+﻿using Domain.Entities;
+using Domain.Settings;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +17,7 @@ public static class TokenService
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public static string GenerateToken(dynamic user)
+    public static string GenerateToken(User user)
     {
         JwtSecurityTokenHandler tokenHandler = new();
         byte[] key = Encoding.ASCII.GetBytes(JWTSettings.Key);
