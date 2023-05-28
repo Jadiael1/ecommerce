@@ -69,8 +69,10 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<User>().Property(u => u.Photo).HasColumnName("photo");
         builder.Entity<User>().Property(u => u.IsAdmin).HasColumnName("is_admin").HasDefaultValue(false);
         builder.Entity<User>().Property(u => u.IsActive).HasColumnName("is_active").HasDefaultValue(false);
-        builder.Entity<User>().Property(u => u.CreatedAt).HasColumnType("datetime").HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnName("created_at");
-        builder.Entity<User>().Property(u => u.UpdatedAt).HasColumnType("datetime").HasColumnName("updated_at").ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Entity<User>().Property(u => u.CreatedAt).HasColumnType("datetime")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnName("created_at");
+        builder.Entity<User>().Property(u => u.UpdatedAt).HasColumnType("datetime").HasColumnName("updated_at")
+            .ValueGeneratedOnAddOrUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         // set unique in field
         builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
@@ -105,7 +107,7 @@ public sealed class ApplicationDbContext : DbContext
         builder.Entity<Product>().Property(u => u.Description).HasColumnName("description");
         builder.Entity<Product>().Property(u => u.Amount).HasColumnName("amount");
         builder.Entity<Product>().Property(u => u.Photo).HasColumnName("photo");
-        builder.Entity<Product>().Property(u => u.Price).HasColumnName("price");
+        builder.Entity<Product>().Property(u => u.Price).HasColumnName("price").HasPrecision(5, 2);
         builder.Entity<Product>().Property(u => u.TechnicalInformation).HasColumnName("technical_information");
         builder.Entity<Product>().Property(u => u.UserId).HasColumnName("user_id");
         builder.Entity<Product>().Property(u => u.CreatedAt).HasColumnName("created_at")

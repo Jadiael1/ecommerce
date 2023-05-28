@@ -38,7 +38,7 @@ public class ErrorHandlerMiddleware
 
             switch (error)
             {
-                case ApiException e:
+                case BadRequestException e:
                     // custom application error
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
@@ -47,9 +47,13 @@ public class ErrorHandlerMiddleware
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
                     responseModel.Errors = e.Errors;
                     break;
-                case KeyNotFoundException e:
+                case NotFoundException e:
                     // not found error
                     response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                case ConflictException e:
+                    // conflict error
+                    response.StatusCode = (int)HttpStatusCode.Conflict;
                     break;
                 default:
                     // unhandled error

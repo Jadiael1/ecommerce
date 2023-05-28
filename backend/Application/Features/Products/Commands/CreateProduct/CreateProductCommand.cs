@@ -20,11 +20,11 @@ public class CreateProductCommand : IRequest<Response<Product>>
     public int UserId { get; set; } = 0;
 }
 
-
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<Product>>
 {
     private readonly IProductRepositoryAsync _productRepositoryAsync;
     private readonly IMapper _mapper;
+
     public CreateProductCommandHandler(IProductRepositoryAsync productRepositoryAsync, IMapper mapper)
     {
         _productRepositoryAsync = productRepositoryAsync;
@@ -37,21 +37,25 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         var product = _mapper.Map<Product>(request);
         if (request.Photo == null)
         {
-            throw new ApiException("A imagem do produto é obrigatória.", 400);
+            throw new BadRequestException("A imagem do produto é obrigatória.");
         }
 
-        List<string> photos = new List<string>();
+        var photos = new List<string>();
         foreach (var file in request.Photo)
         {
-            if (file.Length > 0 && IsImageValid(file))
-            {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine("uploads\\products", fileName);
-                using var stream = new FileStream(filePath, FileMode.Create);
-                await file.CopyToAsync(stream, cancellationToken);
-                photos.Add(filePath);
-            }
+            if (file.Length <= 0 || !IsImageValid(file)) continue;
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine("uploads/products", fileName);
+            await using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream, cancellationToken);
+            photos.Add(filePath);
         }
+
+        if (!photos.Any())
+        {
+            throw new BadRequestException("Nenhuma das suas imagens são validas, Você precisa enviar pelo menos 1 imagem valida para cadastrar seu produto.");
+        }
+
         product.Photo = JsonSerializer.Serialize(photos);
 
         var entityProduct = await _productRepositoryAsync.AddAsync(product);
@@ -66,10 +70,11 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         {
             return false;
         }
+
         try
         {
             using var image = Image.Load(file.OpenReadStream());
-            return image.Width > 0 && image.Height > 0;
+            return image is { Width: > 0, Height: > 0 };
         }
         catch (Exception)
         {

@@ -5,6 +5,9 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace Application.Features.Users.Commands.CreateUser;
 
@@ -36,7 +39,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
     {
         if (request.Password != request.ConfirmPassword)
         {
-            throw new ApiException("Senhas n„o confere", 400);
+            throw new BadRequestException("Senhas n√£o confere");
         }
 
         var user = _mapper.Map<User>(request);
@@ -44,36 +47,43 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
 
         if (request.Photo == null || request.Photo.Length == 0)
         {
-            user.Photo = "images\\default.png";
+            user.Photo = "uploads/users/default.png";
         }
-
-        if (request.Photo != null && !IsImageValid(request.Photo))
+        
+        var isImageValid = await IsImageValid(request.Photo);
+        if (request.Photo != null && !isImageValid)
         {
-            throw new ApiException("Esta n„o È uma imagem valida", 500);
+            throw new BadRequestException("Esta n√£o √© uma imagem valida");
         }
 
         if (request.Photo != null && request.Photo.Length > 0)
         {
-            var maxFileSize = 5 * 1024 * 1024;
+            const int maxFileSize = 5 * 1024 * 1024;
             if (request.Photo.Length > maxFileSize)
             {
-                throw new ApiException("O tamanho m·ximo do arquivo È de 5 MB.", 400);
+                throw new BadRequestException("O tamanho m√°ximo do arquivo √© de 5 MB.");
             }
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.Photo.FileName);
-            string imagePath = Path.Combine("images", fileName);
-            using Stream imageStream = request.Photo.OpenReadStream();
-            using Image image = Image.Load(imageStream);
-            image.Save(imagePath);
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(request.Photo.FileName);
+            var imagePath = Path.Combine("uploads/users", fileName);
+            await using var imageStream = request.Photo.OpenReadStream();
+            using var image = await Image.LoadAsync(imageStream, cancellationToken);
+            await image.SaveAsync(imagePath, cancellationToken);
             user.Photo = imagePath;
         }
-
-
-        var entityUser = await _userRepositoryAsync.AddAsync(user);
-        entityUser.Password = "*************";
-        return new Response<User>(entityUser, "Usuario criado com sucesso.");
+        try
+        {
+            var entityUser = await _userRepositoryAsync.AddAsync(user);
+            entityUser.Password = "*************";
+            return new Response<User>(entityUser, "Usu√°rio criado com sucesso.");
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is MySqlException { Number: 1062 })
+        {
+            throw new ConflictException("J√° existe um usu√°rio cadastrado com este mesmo e-mail");
+        }
     }
 
-    private bool IsImageValid(IFormFile file)
+    private static async Task<bool> IsImageValid(IFormFile file)
     {
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
         var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
@@ -81,10 +91,11 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
         {
             return false;
         }
+
         try
         {
-            using var image = Image.Load(file.OpenReadStream());
-            return image.Width > 0 && image.Height > 0;
+            using var image = await Image.LoadAsync(file.OpenReadStream());
+            return image is { Width: > 0, Height: > 0 };
         }
         catch (Exception)
         {

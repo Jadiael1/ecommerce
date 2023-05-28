@@ -12,12 +12,13 @@ using Infrastructure.Persistence.Repository;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using Application.Exceptions;
 
 namespace Infrastructure.Persistence.Repositories;
 
 public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepositoryAsync
 {
-    private IDataShapeHelper<User> _dataShaper;
+    private readonly IDataShapeHelper<User> _dataShaper;
     private readonly ApplicationDbContext _dbContext;
     private readonly DbSet<User> _users;
     private readonly IMapper _mapper;
@@ -41,7 +42,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
             Login = u.Login,
             Email = u.Email,
             Phone = u.Phone,
-            Password = u.Password,
+            Password = "*************",
             BirthDate = u.BirthDate,
             Photo = u.Photo,
             IsAdmin = u.IsAdmin,
@@ -58,11 +59,11 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
         var pageNumber = requestParameter.PageNumber;
         var orderBy = requestParameter.OrderBy;
         var fields = requestParameter.Fields;
-        int recordsTotal, recordsFiltered;
+        
         var result = _users.AsNoTracking().AsExpandable();
-        recordsTotal = await result.CountAsync();
+        var recordsTotal = await result.CountAsync();
         FilterByColumn(ref result, requestParameter);
-        recordsFiltered = await result.CountAsync();
+        var recordsFiltered = await result.CountAsync();
         var pageSize = requestParameter.PageSize == 0 ? recordsFiltered : requestParameter.PageSize;
         var recordsCount = new RecordsCount
         {
@@ -104,7 +105,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
 
         if (resultData?.Count == 0 || resultData == null)
         {
-            throw new KeyNotFoundException("Nenhum user foi localizado.");
+            throw new NotFoundException("Nenhum user foi localizado.");
         }
 
         var shapeData = await _dataShaper.ShapeDataAsync(resultData, fields);
@@ -117,7 +118,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
         var user = await _users.FirstOrDefaultAsync(u => u.Id == request.Id);
         if (user == null)
         {
-            throw new KeyNotFoundException("User não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
 
         user = _mapper.Map(request, user);
@@ -131,7 +132,7 @@ public class UserRepositoryAsync : GenericRepositoryAsync<User>, IUserRepository
         var user = await _users.FirstOrDefaultAsync(u => u.Id == request.Id);
         if (user == null)
         {
-            throw new KeyNotFoundException("User não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
 
         _users.Remove(user);

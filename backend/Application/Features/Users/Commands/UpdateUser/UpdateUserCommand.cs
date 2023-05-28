@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using AutoMapper;
@@ -38,9 +39,9 @@ public class UpdateUserCommand : IRequest<Response<User>>
             var user = await _userRepositoryAsync.UpdateUserByIdAsync(command);
             if (user == null)
             {
-                throw new KeyNotFoundException("User não encontrado");
+                throw new NotFoundException("Usuário não encontrado");
             }
-            return new Response<User>(user, "Usuario editado com sucesso.");
+            return new Response<User>(user, "Usuário editado com sucesso.");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Products.Commands.CreateProduct;
+using Application.Features.Products.Commands.UpdateProduct;
 using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.UpdateUser;
 using AutoMapper;
@@ -39,5 +40,12 @@ public class GeneralProfile : Profile
             .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.TechnicalInformation, opt => opt.MapFrom(src => src.TechnicalInformation))
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
+
+        CreateMap<UpdateProductCommand, Product>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+            .ForMember(dest => dest.TechnicalInformation, opt => opt.MapFrom(src => src.TechnicalInformation));
     }
 }

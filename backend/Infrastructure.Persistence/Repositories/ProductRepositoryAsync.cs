@@ -8,6 +8,11 @@ using Infrastructure.Persistence.Repository;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using Application.Exceptions;
+using Application.Features.Products.Commands.DeleteProduct;
+using Application.Features.Products.Commands.UpdateProduct;
+using Application.Features.Users.Commands.UpdateUser;
+using AutoMapper;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -15,12 +20,44 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
 {
     private IDataShapeHelper<Product> _dataShaper;
     private readonly DbSet<Product> _products;
+    private readonly ApplicationDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public ProductRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Product> dataShaper) :
+    public ProductRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Product> dataShaper, IMapper mapper) :
         base(dbContext)
     {
         _dataShaper = dataShaper;
         _products = dbContext.Set<Product>();
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
+    
+    public async Task<Product?> DeleteProductByIdAsync(DeleteProductCommand request)
+    {
+        var product = await _products.FirstOrDefaultAsync(p => p.Id == request.Id);
+        if (product == null)
+        {
+            throw new NotFoundException("Produto não encontrado");
+        }
+
+        _products.Remove(product);
+        await _dbContext.SaveChangesAsync();
+        return product;
+    }
+
+    
+    public async Task<Product?> UpdateProductByIdAsync(UpdateProductCommand request)
+    {
+        var product = await _products.FirstOrDefaultAsync(p => p.Id == request.Id);
+        if (product == null)
+        {
+            throw new NotFoundException("Produto não encontrado");
+        }
+
+        product = _mapper.Map(request, product);
+        _products.Update(product);
+        await _dbContext.SaveChangesAsync();
+        return product;
     }
 
     public async Task<(IEnumerable<Entity> data, RecordsCount recordsCount)> GetPagedProductsResponseAsync(
@@ -29,11 +66,10 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         var pageNumber = requestParameter.PageNumber;
         var orderBy = requestParameter.OrderBy;
         var fields = requestParameter.Fields;
-        int recordsTotal, recordsFiltered;
         var result = _products.AsNoTracking().AsExpandable();
-        recordsTotal = await result.CountAsync();
+        var recordsTotal = await result.CountAsync();
         FilterByColumn(ref result, requestParameter);
-        recordsFiltered = await result.CountAsync();
+        var recordsFiltered = await result.CountAsync();
         var pageSize = requestParameter.PageSize == 0 ? recordsFiltered : requestParameter.PageSize;
         var recordsCount = new RecordsCount
         {
@@ -57,16 +93,14 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         var resultData = await result.ToListAsync();
         if (resultData?.Count == 0)
         {
-            throw new KeyNotFoundException("Nenhum produto foi localizado.");
+            throw new NotFoundException("Nenhum produto foi localizado.");
         }
-
         var shapeData = await _dataShaper.ShapeDataAsync(resultData, fields);
         return (shapeData, recordsCount);
     }
 
     public async Task<Product?> GetProductByIdAsync(int id)
     {
-        // .Include(p => p.UserId)
         return await _products.FirstOrDefaultAsync(p => p.Id == id);
     }
 

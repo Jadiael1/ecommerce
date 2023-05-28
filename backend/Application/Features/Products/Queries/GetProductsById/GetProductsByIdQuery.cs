@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using Domain.Entities;
@@ -23,7 +24,7 @@ public class GetProductsByIdQuery : IRequest<Response<Product>>
             var product = await _productRepositoryAsync.GetProductByIdAsync(request.Id);
             if (product == null)
             {
-                throw new KeyNotFoundException("Produto não localizado.");
+                throw new NotFoundException("Produto não localizado.");
             }
             return new Response<Product>(product);
         }

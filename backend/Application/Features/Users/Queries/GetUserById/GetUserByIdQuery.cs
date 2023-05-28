@@ -1,4 +1,5 @@
 using Application.DTOs.User;
+using Application.Exceptions;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using MediatR;
@@ -23,7 +24,7 @@ public class GetUserByIdQuery : IRequest<Response<ResponseUserDto>>
             var user = await _userRepositoryAsync.GetUserByIdAsync(query.Id);
             if (user == null)
             {
-                throw new KeyNotFoundException("User não localizado.");
+                throw new NotFoundException("Usuário não localizado.");
             }
             return new Response<ResponseUserDto>(user);
         }

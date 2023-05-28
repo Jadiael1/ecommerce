@@ -43,9 +43,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwaggerExtension();
 }
-
+app.UseSwaggerExtension();
 // app.UseSerilogRequestLogging();
 app.UseRouting();
 
@@ -56,8 +55,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+// handle exceptions
 app.UseErrorHandlingMiddleware();
+
 app.UseHealthChecks("/health");
 
 app.MapControllers();

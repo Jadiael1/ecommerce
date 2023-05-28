@@ -54,6 +54,8 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
     [AllowAnonymous]

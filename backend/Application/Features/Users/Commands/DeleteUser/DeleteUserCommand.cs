@@ -24,7 +24,7 @@ public class DeleteUserCommand : IRequest<Response<User>>
             var user = await _userRepositoryAsync.GetUserByIdAsync(command.Id);
             if (user == null)
             {
-                throw new KeyNotFoundException("User não localizado.");
+                throw new NotFoundException("Usuário não localizado.");
             }
             */
             var user = await _userRepositoryAsync.DeleteUserByIdAsync(command);

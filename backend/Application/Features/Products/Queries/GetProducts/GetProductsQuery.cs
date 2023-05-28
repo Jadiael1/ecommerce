@@ -24,9 +24,7 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedRe
     public async Task<PagedResponse<IEnumerable<Entity>>> Handle(GetProductsQuery request,
         CancellationToken cancellationToken)
     {
-        var entityProducts = await _productRepository.GetPagedProductsResponseAsync(request);
-        var data = entityProducts.data;
-        RecordsCount recordCount = entityProducts.recordsCount;
+        var (data, recordCount) = await _productRepository.GetPagedProductsResponseAsync(request);
         return new PagedResponse<IEnumerable<Entity>>(data, request.PageNumber, request.PageSize, recordCount);
     }
 }
