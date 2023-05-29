@@ -1,13 +1,20 @@
 using Application.DTOs.Error;
+using Application.DTOs.Product;
+using Application.Exceptions;
 using Application.Features.Products.Commands.CreateProduct;
 using Application.Features.Products.Commands.DeleteProduct;
+using Application.Features.Products.Commands.PatchProduct;
 using Application.Features.Products.Commands.UpdateProduct;
 using Application.Features.Products.Queries.GetProducts;
 using Application.Features.Products.Queries.GetProductsById;
 using Application.Wrappers;
 using Domain.Entities;
+using Infrastructure.Persistence.Contexts;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers.v1;
 /// <summary>
@@ -17,12 +24,26 @@ namespace WebApi.Controllers.v1;
 [Authorize(Roles = "admin, user")]
 public class ProductController : BaseApiController
 {
+    
+    private readonly ApplicationDbContext _context;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
+    public ProductController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+    
+    
     /// <summary>
     /// GET api/controller, CRUD > Get by query parameters
     /// </summary>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<Product>>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -38,6 +59,7 @@ public class ProductController : BaseApiController
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -52,6 +74,7 @@ public class ProductController : BaseApiController
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -73,6 +96,8 @@ public class ProductController : BaseApiController
     /// <returns></returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -83,12 +108,35 @@ public class ProductController : BaseApiController
     }
     
     /// <summary>
+    /// PATCH api/controller, CRUD > Update
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> PatchAsync(int id, [FromForm] PatchProductCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest();
+        }
+        return Ok(await Mediator!.Send(command));
+    }
+    
+    /// <summary>
     /// DELETE api/controller, CRUD > Delete
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]

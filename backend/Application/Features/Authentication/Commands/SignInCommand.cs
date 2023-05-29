@@ -31,7 +31,7 @@ public class SignInCommand : IRequest<Response<ResponseSignInDto>>
 
         public async Task<Response<ResponseSignInDto>> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
-            await Task.Delay(100);
+            await Task.Delay(100, cancellationToken);
             var response = new ResponseSignInDto
             {
                 User = request.User,

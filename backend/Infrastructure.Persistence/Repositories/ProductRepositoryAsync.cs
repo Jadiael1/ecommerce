@@ -8,11 +8,14 @@ using Infrastructure.Persistence.Repository;
 using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
+using Application.DTOs.Product;
 using Application.Exceptions;
 using Application.Features.Products.Commands.DeleteProduct;
+using Application.Features.Products.Commands.PatchProduct;
 using Application.Features.Products.Commands.UpdateProduct;
-using Application.Features.Users.Commands.UpdateUser;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -22,16 +25,19 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
     private readonly DbSet<Product> _products;
     private readonly ApplicationDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ProductRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Product> dataShaper, IMapper mapper) :
+    public ProductRepositoryAsync(ApplicationDbContext dbContext, IDataShapeHelper<Product> dataShaper, IMapper mapper,
+        IHttpContextAccessor httpContextAccessor) :
         base(dbContext)
     {
         _dataShaper = dataShaper;
         _products = dbContext.Set<Product>();
         _dbContext = dbContext;
         _mapper = mapper;
+        _httpContextAccessor = httpContextAccessor;
     }
-    
+
     public async Task<Product?> DeleteProductByIdAsync(DeleteProductCommand request)
     {
         var product = await _products.FirstOrDefaultAsync(p => p.Id == request.Id);
@@ -45,7 +51,6 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         return product;
     }
 
-    
     public async Task<Product?> UpdateProductByIdAsync(UpdateProductCommand request)
     {
         var product = await _products.FirstOrDefaultAsync(p => p.Id == request.Id);
@@ -53,10 +58,38 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         {
             throw new NotFoundException("Produto não encontrado");
         }
-
         product = _mapper.Map(request, product);
-        _products.Update(product);
+        _dbContext.Entry(product).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
+        return product;
+    }
+
+    public async Task<Product?> PatchProductByIdAsync(PatchProductCommand request)
+    {
+        var product = await _products.FirstOrDefaultAsync(p => p.Id == request.Id);
+        if (product == null)
+        {
+            throw new NotFoundException("Produto não encontrado");
+        }
+        
+        if (request.Name.Any())
+            product.Name = request.Name;
+            
+        if (request.Description.Any())
+            product.Description = request.Description;
+            
+        if (request.Amount > 0)
+            product.Amount = request.Amount;
+            
+        if (request.Price > 0)
+            product.Price = request.Price;
+            
+        if (request.TechnicalInformation.Any())
+            product.TechnicalInformation = request.TechnicalInformation;
+        
+        _dbContext.Entry(product).State = EntityState.Modified;
+        await _dbContext.SaveChangesAsync();
+
         return product;
     }
 
@@ -95,6 +128,7 @@ public class ProductRepositoryAsync : GenericRepositoryAsync<Product>, IProductR
         {
             throw new NotFoundException("Nenhum produto foi localizado.");
         }
+
         var shapeData = await _dataShaper.ShapeDataAsync(resultData, fields);
         return (shapeData, recordsCount);
     }

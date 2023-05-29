@@ -21,8 +21,8 @@ public static class ServiceRegistration
         }
         else
         {
-            string _defaultConnection = configuration.GetConnectionString("DefaultConnection") ?? "";
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(_defaultConnection, ServerVersion.AutoDetect(_defaultConnection), mySqlOptions => mySqlOptions.MigrationsAssembly("WebApi")));
+            var defaultConnection = configuration.GetConnectionString("DefaultConnection") ?? "";
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(defaultConnection, ServerVersion.AutoDetect(defaultConnection), mySqlOptions => mySqlOptions.MigrationsAssembly("WebApi")));
         }
 
         #region Repositories
@@ -30,6 +30,7 @@ public static class ServiceRegistration
         services.AddTransient<IUserRepositoryAsync, UserRepositoryAsync>();
         services.AddTransient<IProductRepositoryAsync, ProductRepositoryAsync>();
         services.AddTransient<IAuthenticationRepositoryAsync, AuthenticationRepositoryAsync>();
+
 
         #endregion
 

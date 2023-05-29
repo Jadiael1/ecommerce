@@ -17,6 +17,7 @@ public static class AppExtensions
         app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi");
+            c.RoutePrefix = string.Empty;
         });
     }
     /// <summary>

@@ -25,6 +25,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<IEnumerable<ResponseUserDto>>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -40,6 +41,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ResponseUserDto>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -72,6 +74,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
@@ -88,6 +91,7 @@ public class UserController : BaseApiController
     /// <returns></returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]

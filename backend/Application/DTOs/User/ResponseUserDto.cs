@@ -15,7 +15,7 @@ public class ResponseUserDto
     public string Photo { get; set; } = string.Empty;
     public bool IsAdmin { get; set; }
     public bool IsActive { get; set; }
-    public virtual List<Product> Products { get; set; }
+    public virtual List<Domain.Entities.Product> Products { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

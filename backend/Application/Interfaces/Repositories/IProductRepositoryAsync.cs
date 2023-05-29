@@ -1,4 +1,5 @@
 using Application.Features.Products.Commands.DeleteProduct;
+using Application.Features.Products.Commands.PatchProduct;
 using Application.Features.Products.Commands.UpdateProduct;
 using Application.Features.Products.Queries.GetProducts;
 using Application.Parameters;
@@ -16,4 +17,6 @@ public interface IProductRepositoryAsync : IGenericRepositoryAsync<Product>
     Task<Product?> UpdateProductByIdAsync(UpdateProductCommand updateUserCommand);
 
     Task<Product?> DeleteProductByIdAsync(DeleteProductCommand request);
+
+    Task<Product?> PatchProductByIdAsync(PatchProductCommand request);
 }

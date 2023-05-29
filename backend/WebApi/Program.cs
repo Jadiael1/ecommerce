@@ -36,6 +36,7 @@ builder.Services.AddMvcCore().AddApiExplorer();
 // API explorer version
 builder.Services.AddVersionedApiExplorerExtension();
 
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -43,8 +44,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.UseSwaggerExtension();
 }
-app.UseSwaggerExtension();
+
 // app.UseSerilogRequestLogging();
 app.UseRouting();
 

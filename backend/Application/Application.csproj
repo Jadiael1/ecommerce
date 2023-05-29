@@ -31,6 +31,9 @@
     <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
       <HintPath>..\..\..\..\.dotnet\shared\Microsoft.AspNetCore.App\7.0.5\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.JsonPatch">
+      <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.jsonpatch\7.0.5\lib\net7.0\Microsoft.AspNetCore.JsonPatch.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Data.SqlClient">
       <HintPath>..\..\..\..\.nuget\packages\microsoft.data.sqlclient\5.0.1\ref\netcoreapp3.1\Microsoft.Data.SqlClient.dll</HintPath>
     </Reference>

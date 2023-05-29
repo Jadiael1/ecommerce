@@ -20,7 +20,7 @@ public static class TokenService
     public static string GenerateToken(User user)
     {
         JwtSecurityTokenHandler tokenHandler = new();
-        byte[] key = Encoding.ASCII.GetBytes(JWTSettings.Key);
+        var key = Encoding.ASCII.GetBytes(JWTSettings.Key);
         SecurityTokenDescriptor tokenDescriptor = new()
         {
             Subject = new ClaimsIdentity(new Claim[]
@@ -32,7 +32,7 @@ public static class TokenService
             Expires = DateTime.UtcNow.AddHours(8),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-        SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+        var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
 }

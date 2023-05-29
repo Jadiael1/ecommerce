@@ -1,17 +1,15 @@
+using Application.Exceptions;
+using Application.Features.Products.Commands.UpdateProduct;
+using Application.Interfaces.Repositories;
 using Application.Wrappers;
+using AutoMapper;
 using Domain.Entities;
 using MediatR;
-using System.Text.Json.Serialization;
-using Application.Exceptions;
-using Application.Interfaces.Repositories;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 
-namespace Application.Features.Products.Commands.UpdateProduct;
+namespace Application.Features.Products.Commands.PatchProduct;
 
-public class UpdateProductCommand : IRequest<Response<Product>>
+public class PatchProductCommand : IRequest<Response<Product>>
 {
-    [JsonIgnore]
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -20,7 +18,7 @@ public class UpdateProductCommand : IRequest<Response<Product>>
     public string TechnicalInformation { get; set; } = string.Empty;
 }
 
-public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<Product>>
+public class PatchProductCommandHandler : IRequestHandler<PatchProductCommand, Response<Product>>
 {
     private readonly IProductRepositoryAsync _productRepositoryAsync;
 
@@ -28,24 +26,16 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
     // private readonly IHttpContextAccessor _httpContextAccessor;
     // IHttpContextAccessor httpContextAccessor
-    public UpdateProductCommandHandler(IProductRepositoryAsync productRepositoryAsync, IMapper mapper)
+    public PatchProductCommandHandler(IProductRepositoryAsync productRepositoryAsync, IMapper mapper)
     {
         _productRepositoryAsync = productRepositoryAsync;
         _mapper = mapper;
         // _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<Response<Product>> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+    public async Task<Response<Product>> Handle(PatchProductCommand command, CancellationToken cancellationToken)
     {
-        /*
-        if (!command.Name.Any() || !command.Description.Any() || command.Amount <= 0 || command.Price <= 0 ||
-            !command.TechnicalInformation.Any())
-        {
-            throw new BadRequestException("falha na validação dos campos");
-        }
-        */
-
-        var product = await _productRepositoryAsync.UpdateProductByIdAsync(command);
+        var product = await _productRepositoryAsync.PatchProductByIdAsync(command);
         if (product == null)
         {
             throw new NotFoundException("Produto não encontrado");
