@@ -5,7 +5,6 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 

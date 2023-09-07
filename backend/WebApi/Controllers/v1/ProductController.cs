@@ -4,6 +4,7 @@ using Application.Exceptions;
 using Application.Features.Products.Commands.CreateProduct;
 using Application.Features.Products.Commands.DeleteProduct;
 using Application.Features.Products.Commands.PatchProduct;
+using Application.Features.Products.Commands.PatchProductImageCommand;
 using Application.Features.Products.Commands.UpdateProduct;
 using Application.Features.Products.Queries.GetProducts;
 using Application.Features.Products.Queries.GetProductsById;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers.v1;
+
 /// <summary>
 /// 
 /// </summary>
@@ -24,7 +26,6 @@ namespace WebApi.Controllers.v1;
 [Authorize(Roles = "admin, user")]
 public class ProductController : BaseApiController
 {
-    
     private readonly ApplicationDbContext _context;
 
     /// <summary>
@@ -35,8 +36,8 @@ public class ProductController : BaseApiController
     {
         _context = context;
     }
-    
-    
+
+
     /// <summary>
     /// GET api/controller, CRUD > Get by query parameters
     /// </summary>
@@ -103,12 +104,17 @@ public class ProductController : BaseApiController
     [Produces("application/json")]
     public async Task<IActionResult> PutAsync(int id, UpdateProductCommand command)
     {
+        if (id == 0)
+        {
+            return BadRequest();
+        }
+
         command.Id = id;
         return Ok(await Mediator!.Send(command));
     }
     
     /// <summary>
-    /// PATCH api/controller, CRUD > Update
+    /// PATCH api/controller, CRUD > Partially update
     /// </summary>
     /// <param name="id"></param>
     /// <param name="command"></param>
@@ -120,13 +126,40 @@ public class ProductController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
     [Produces("application/json")]
-    public async Task<IActionResult> PatchAsync(int id, [FromForm] PatchProductCommand command)
+    public async Task<IActionResult> PatchAsync(int id, PatchProductCommand command)
     {
-        if (id != command.Id)
+        if (id == 0)
         {
             return BadRequest();
         }
+
+        command.Id = id;
         return Ok(await Mediator!.Send(command));
+    }
+    
+    /// <summary>
+    /// PATCH api/controller, CRUD > Update product photo
+    /// </summary>
+    /// <param name="command"></param>
+    /// <param name="productId"></param>
+    /// <param name="photoId"></param>
+    /// <returns></returns>
+    [HttpPatch("{productId:int}/photo/{photoId:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<Product>))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ResponseErrorDto))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ResponseErrorDto))]
+    [Produces("application/json")]
+    public async Task<IActionResult> PatchProductImageAsync([FromForm] RequestUpdateImageCommandDto command, int productId, int photoId)
+    {
+        var patchProductImageCommand = new PatchProductImageCommand
+        {
+            Photo = command.Photo,
+            PhotoId = photoId,
+            ProductId = productId
+        };
+        return Ok(await Mediator!.Send(patchProductImageCommand));
     }
     
     /// <summary>
@@ -145,5 +178,4 @@ public class ProductController : BaseApiController
         return Ok(await Mediator!.Send(new DeleteProductCommand { Id = id }));
     }
     
-
 }

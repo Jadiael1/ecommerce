@@ -37,14 +37,13 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
 
     public async Task<Response<Product>> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        /*
+        
         if (!command.Name.Any() || !command.Description.Any() || command.Amount <= 0 || command.Price <= 0 ||
             !command.TechnicalInformation.Any())
         {
             throw new BadRequestException("falha na validação dos campos");
         }
-        */
-
+        
         var product = await _productRepositoryAsync.UpdateProductByIdAsync(command);
         if (product == null)
         {

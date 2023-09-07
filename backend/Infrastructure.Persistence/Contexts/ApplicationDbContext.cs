@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Bogus;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,17 +9,17 @@ namespace Infrastructure.Persistence.Contexts;
 
 public sealed class ApplicationDbContext : DbContext
 {
-    private readonly IDateTimeService _dateTime;
+    // private readonly IDateTimeService _dateTime;
     private readonly ILoggerFactory _loggerFactory;
-    private readonly string _defaultConnection;
+    // private readonly string _defaultConnection;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IDateTimeService dateTime,
         ILoggerFactory loggerFactory, IConfiguration config) : base(options)
     {
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        _dateTime = dateTime;
+        // _dateTime = dateTime;
         _loggerFactory = loggerFactory;
-        _defaultConnection = config.GetConnectionString("DefaultConnection") ?? "";
+        // _defaultConnection = config.GetConnectionString("DefaultConnection") ?? "";
     }
 
 
@@ -26,6 +27,7 @@ public sealed class ApplicationDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductPhoto> ProductPhoto => Set<ProductPhoto>();
 
     #endregion
 
@@ -54,10 +56,14 @@ public sealed class ApplicationDbContext : DbContext
     }
     */
 
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        var faker = new Faker();
+        var usedEmails = new HashSet<string>();
+        var usedLogin = new HashSet<string>();
+
         // rename fields in table Users
+        builder.Entity<User>().ToTable("users");
         builder.Entity<User>().Property(u => u.Id).HasColumnName("id");
         builder.Entity<User>().Property(u => u.Name).HasColumnName("name");
         builder.Entity<User>().Property(u => u.Surname).HasColumnName("surname");
@@ -76,41 +82,57 @@ public sealed class ApplicationDbContext : DbContext
 
         // set unique in field
         builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        builder.Entity<User>().HasIndex(u => u.Login).IsUnique();
         // populate a user table
+
+
         var users = new List<User>();
         for (var i = 1; i <= 10; i++)
         {
             var user = new User
             {
                 Id = i,
-                Name = Faker.Name.First(),
-                Surname = Faker.Name.Last(),
-                Login = Faker.Internet.UserName(),
-                Email = Faker.Internet.Email(),
-                Phone = Faker.Identification.UkNhsNumber(),
-                Password = Faker.Lorem.Paragraph(1),
-                BirthDate = Faker.Identification.DateOfBirth(),
-                Photo = "https://loremflickr.com/640/480/abstract",
-                IsAdmin = Faker.Boolean.Random(),
-                IsActive = Faker.Boolean.Random(),
+                Name = faker.Person.FirstName,
+                Surname = faker.Person.LastName,
+                Login = faker.Internet.UserName(),
+                Email = faker.Person.Email,
+                Phone = faker.Person.Phone,
+                Password = BCrypt.Net.BCrypt.HashPassword("123123"),
+                BirthDate = faker.Person.DateOfBirth,
+                Photo = faker.Image.PlaceImgUrl(),
+                IsAdmin = faker.Random.Bool(),
+                IsActive = faker.Random.Bool(),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
+            do
+            {
+                user.Email = faker.Internet.Email();
+            } while (usedEmails.Contains(user.Email));
+            usedEmails.Add(user.Email);
+            
+            do
+            {
+                user.Login = faker.Internet.UserName();
+            } while (usedLogin.Contains(user.Login));
+            usedLogin.Add(user.Login);
+            
             users.Add(user);
         }
 
         builder.Entity<User>().HasData(users);
 
         // rename fields in table Products
-        builder.Entity<Product>().Property(u => u.Id).HasColumnName("id");
-        builder.Entity<Product>().Property(u => u.Name).HasColumnName("name");
-        builder.Entity<Product>().Property(u => u.Description).HasColumnName("description");
-        builder.Entity<Product>().Property(u => u.Amount).HasColumnName("amount");
-        builder.Entity<Product>().Property(u => u.Photo).HasColumnName("photo");
-        builder.Entity<Product>().Property(u => u.Price).HasColumnName("price").HasPrecision(5, 2);
-        builder.Entity<Product>().Property(u => u.TechnicalInformation).HasColumnName("technical_information");
-        builder.Entity<Product>().Property(u => u.UserId).HasColumnName("user_id");
-        builder.Entity<Product>().Property(u => u.CreatedAt).HasColumnName("created_at")
+        builder.Entity<Product>().ToTable("products");
+        builder.Entity<Product>().Property(p => p.Id).HasColumnName("id");
+        builder.Entity<Product>().Property(p => p.Name).HasColumnName("name");
+        builder.Entity<Product>().Property(p => p.Description).HasColumnName("description");
+        builder.Entity<Product>().Property(p => p.Amount).HasColumnName("amount");
+        builder.Entity<Product>().Property(p => p.Price).HasColumnName("price").HasPrecision(5, 2);
+        builder.Entity<Product>().Property(p => p.TechnicalInformation).HasColumnName("technical_information");
+        builder.Entity<Product>().Property(p => p.UserId).HasColumnName("user_id");
+        // builder.Entity<Product>().Property(p => p.ProductPhoto).HasColumnName("product_photos");
+        builder.Entity<Product>().Property(p => p.CreatedAt).HasColumnName("created_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
         builder.Entity<Product>().Property(u => u.UpdatedAt).HasColumnName("updated_at")
             .HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
@@ -121,12 +143,11 @@ public sealed class ApplicationDbContext : DbContext
             var product = new Product
             {
                 Id = i,
-                Name = Faker.Lorem.Paragraph(1),
-                Description = Faker.Lorem.Paragraph(1),
-                Amount = Faker.RandomNumber.Next(1, 10),
-                Photo = "https://loremflickr.com/640/480/abstract",
-                Price = Faker.RandomNumber.Next(10, 20),
-                TechnicalInformation = Faker.Lorem.Paragraph(10),
+                Name = faker.Person.FirstName,
+                Description = faker.Commerce.ProductDescription(),
+                Amount = faker.Random.Int(1, 10),
+                Price = faker.Random.Decimal(1M, 2M),
+                TechnicalInformation = faker.Lorem.Text(),
                 UserId = i,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -135,6 +156,49 @@ public sealed class ApplicationDbContext : DbContext
         }
 
         builder.Entity<Product>().HasData(products);
+
+
+        // rename fields in Table ProductPhoto
+        builder.Entity<ProductPhoto>().ToTable("product_photos");
+        builder.Entity<ProductPhoto>().Property(p => p.Id).HasColumnName("id");
+        builder.Entity<ProductPhoto>().Property(p => p.Name).HasColumnName("name");
+        builder.Entity<ProductPhoto>().Property(p => p.NewName).HasColumnName("new_name");
+        builder.Entity<ProductPhoto>().Property(p => p.Path).HasColumnName("path");
+        builder.Entity<ProductPhoto>().Property(p => p.ProductId).HasColumnName("product_id");
+        builder.Entity<ProductPhoto>().Property(p => p.CreatedAt).HasColumnName("created_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Entity<ProductPhoto>().Property(p => p.UpdatedAt).HasColumnName("updated_at")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
+
+        // populate a products table
+        var productPhotos = new List<ProductPhoto>();
+        for (var i = 1; i <= 10; i++)
+        {
+            var productPhoto = new ProductPhoto()
+            {
+                Id = i,
+                Name = $"{faker.Random.Word()}.{faker.PickRandom(new string[] { "jpg", "png", "gif" })}",
+                NewName = $"{faker.Random.Word()}.{faker.PickRandom(new string[] { "jpg", "png", "gif" })}",
+                Path = faker.Internet.UrlRootedPath(),
+                ProductId = i,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+            productPhotos.Add(productPhoto);
+        }
+
+        builder.Entity<ProductPhoto>().HasData(productPhotos);
+
+
+        builder.Entity<Product>()
+            .HasMany(p => p.Photos)
+            .WithOne(p => p.Product)
+            .HasForeignKey(p => p.ProductId);
+
+        builder.Entity<Product>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.Products)
+            .HasForeignKey(p => p.UserId);
 
         base.OnModelCreating(builder);
     }

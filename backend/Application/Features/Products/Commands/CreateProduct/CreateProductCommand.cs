@@ -34,51 +34,11 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
     public async Task<Response<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = _mapper.Map<Product>(request);
-        if (request.Photo == null)
+        var product = await _productRepositoryAsync.CreateProductAsync(request);
+        if (product == null)
         {
-            throw new BadRequestException("A imagem do produto é obrigatória.");
+            throw new NotFoundException("Produto não encontrado");
         }
-
-        var photos = new List<string>();
-        foreach (var file in request.Photo)
-        {
-            if (file.Length <= 0 || !IsImageValid(file)) continue;
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine("uploads/products", fileName);
-            await using var stream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(stream, cancellationToken);
-            photos.Add(filePath);
-        }
-
-        if (!photos.Any())
-        {
-            throw new BadRequestException("Nenhuma das suas imagens são validas, Você precisa enviar pelo menos 1 imagem valida para cadastrar seu produto.");
-        }
-
-        product.Photo = JsonSerializer.Serialize(photos);
-
-        var entityProduct = await _productRepositoryAsync.AddAsync(product);
-        return new Response<Product>(entityProduct, "Produto criado com sucesso.");
-    }
-
-    private static bool IsImageValid(IFormFile file)
-    {
-        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-        var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (file == null || !allowedExtensions.Contains(fileExtension))
-        {
-            return false;
-        }
-
-        try
-        {
-            using var image = Image.Load(file.OpenReadStream());
-            return image is { Width: > 0, Height: > 0 };
-        }
-        catch (Exception)
-        {
-            return false;
-        }
+        return new Response<Product>(product, "Produto criado com sucesso");
     }
 }

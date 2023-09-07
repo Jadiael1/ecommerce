@@ -38,4 +38,9 @@
     <ProjectReference Include="..\Infrastructure.Shared\Infrastructure.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="uploads\products\" />
+    <Folder Include="uploads\users\" />
+  </ItemGroup>
+
 </Project>

@@ -1,15 +1,16 @@
 using Application.Exceptions;
-using Application.Features.Products.Commands.UpdateProduct;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using System.Text.Json.Serialization;
 
 namespace Application.Features.Products.Commands.PatchProduct;
 
 public class PatchProductCommand : IRequest<Response<Product>>
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -23,14 +24,11 @@ public class PatchProductCommandHandler : IRequestHandler<PatchProductCommand, R
     private readonly IProductRepositoryAsync _productRepositoryAsync;
 
     private readonly IMapper _mapper;
-
-    // private readonly IHttpContextAccessor _httpContextAccessor;
-    // IHttpContextAccessor httpContextAccessor
+    
     public PatchProductCommandHandler(IProductRepositoryAsync productRepositoryAsync, IMapper mapper)
     {
         _productRepositoryAsync = productRepositoryAsync;
         _mapper = mapper;
-        // _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Response<Product>> Handle(PatchProductCommand command, CancellationToken cancellationToken)
@@ -40,6 +38,7 @@ public class PatchProductCommandHandler : IRequestHandler<PatchProductCommand, R
         {
             throw new NotFoundException("Produto não encontrado");
         }
+
         return new Response<Product>(product, "Produto editado com sucesso.");
     }
 }
